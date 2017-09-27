@@ -1,0 +1,30 @@
+{
+  "name": "brightscript-lexer",
+  "version": "1.0.0",
+  "description": "A lexer for brightscript written in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TwitchBronBron/brightscript-lexer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TwitchBronBron/brightscript-lexer/issues"
+  },
+  "homepage": "https://github.com/TwitchBronBron/brightscript-lexer#readme",
+  "dependencies": {
+    "@types/jasmine": "^2.6.0",
+    "jasmine": "^2.8.0",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-typescript": "^3.0.7",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
+  }
+}

@@ -1,0 +1,39 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "array-type": false,
+        "quotemark": {
+            "options": "single"
+        },
+        "comment-format": false,
+        "prefer-const": false,
+        "object-literal-sort-keys": false,
+        "trailing-comma": false,
+        "forin": false,
+        "no-angle-bracket-type-assertion": false,
+        "radix": false,
+        "eofline": false,
+        "interface-name": false,
+        "whitespace": {
+            "options": [
+                "check-branch",
+                "check-decl",
+                "check-operator",
+                "check-module",
+                "check-separator",
+                "check-rest-spread",
+                "check-type",
+                "check-type-operator",
+                "check-preblock"
+            ]
+        },
+        "object-literal-shorthand": false,
+        "only-arrow-functions": false,
+        "space-before-function-paren": false
+    },
+    "rulesDirectory": []
+}
