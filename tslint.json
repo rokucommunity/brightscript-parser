@@ -9,11 +9,13 @@
         "quotemark": {
             "options": "single"
         },
+        "no-trailing-whitespace": false,
         "comment-format": false,
         "prefer-const": false,
         "object-literal-sort-keys": false,
         "trailing-comma": false,
         "forin": false,
+        "no-empty": false,
         "no-angle-bracket-type-assertion": false,
         "radix": false,
         "eofline": false,

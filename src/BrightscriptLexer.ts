@@ -1,80 +1,6 @@
-export enum TokenType {
-    sequenceTerminator,
-    invalidToken,
-    and,
-    createObject,
-    elseIf,
-    endFunction,
-    endSub,
-    endWhile,
-    eval,
-    exitWhile,
-    if,
-    then,
-    else,
-    end,
-    endif,
-    for,
-    to,
-    step,
-    exit,
-    each,
-    while,
-    function,
-    as,
-    return,
-    print,
-    rem,
-    goto,
-    dim,
-    stop,
-    void,
-    boolean,
-    integer,
-    longInteger,
-    float,
-    double,
-    string,
-    object,
-    interface,
-    invalid,
-    dynamic,
-    type,
-    singleQuote,
-    doubleQuote,
-    openParen,
-    closeParen,
-    openSquareBrace,
-    closeSquareBrace,
-    period,
-    comma,
-    number,
-    newline,
-    whitespace,
-    identifier,
-    numberValue,
-    stringValue,
-    booleanValue,
-    let,
-    lineNum,
-    next,
-    not,
-    ObjFun,
-    pos,
-    run,
-    tap,
-    semicolon,
-    dash,
-    percent,
-    equal,
-    lessThan,
-    greaterThan,
-    or,
-    colon,
-}
-
 export class BrightscriptLexer {
     private tokenDefinitions: { tokenType: TokenType, regexp: RegExp }[] = [];
+
     constructor() {
         this.addTokenDefinitions();
     }
@@ -83,20 +9,54 @@ export class BrightscriptLexer {
         this.tokenDefinitions.push({ tokenType, regexp });
     }
 
+    /**
+     * Add a symbol token definition with the standard regexp for symbols
+     * @param symbol the symbol in a string
+     * @param tokenType 
+     */
+    public addSymbolTokenDefinition(symbol: string, tokenType: TokenType) {
+        //escape the symbol if need be
+        symbol = symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        let regexp = new RegExp(`^(${symbol})`);
+        this.addTokenDefinition(tokenType, regexp);
+    }
+
+    public addKeywordTokenDefinition(keyword: string, tokenType: TokenType) {
+        let regexp = new RegExp(`^(${keyword})(?![a-z_0-9])`, 'i');
+        this.addTokenDefinition(tokenType, regexp);
+    }
+
+    public addKeywordTokenDefinitions(tokenTypes: TokenType[]) {
+        for (let tokenType of tokenTypes) {
+            let keyword = <string>tokenType;
+            this.addKeywordTokenDefinition(keyword, tokenType);
+        }
+    }
+
     public addTokenDefinitions() {
-        //for reference, the identifierRegex
-        //   [a-z_][a-z0-9_]*
-        this.addTokenDefinition(TokenType.as, /^(as)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.boolean, /^(boolean)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.booleanValue, /^(true|false)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.closeParen, /^\)/);
-        this.addTokenDefinition(TokenType.closeSquareBrace, /^\]/);
+        //add whitespace first (because it's probably the most common)
+        this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
 
-        this.addTokenDefinition(TokenType.openParen, /^\(/);
+        //now add newlines
+        this.addTokenDefinition(TokenType.newline, /^(\r|\n|\r\n|\n\r)/);
 
-        this.addTokenDefinition(TokenType.identifier, /[a-z_][a-z0-9_]*/i);
+        //now add keywords
+        this.addKeywordTokenDefinitions(KeywordTokenTypes);
 
-        this.addTokenDefinition(TokenType.whitespace, /^\s+/);
+        //now add literal values
+        this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.stringLiteral, /^(".*")/);
+        this.addTokenDefinition(TokenType.numberLiteral, /^(\d)/);
+
+        //now add all symbols
+        for (let tokenType in SymbolTokenTypeValues) {
+            let symbol = SymbolTokenTypeValues[tokenType];
+            this.addSymbolTokenDefinition(symbol, <TokenType>tokenType);
+        }
+
+        //now add identifiers
+        this.addTokenDefinition(TokenType.identifier, /^([a-z_]+[a-z0-9_]*)/i);
+
     }
     public tokenize(text: string) {
         let tokens: Token[] = [];
@@ -152,3 +112,173 @@ export interface Token {
     value: string | null;
     startIndex: number;
 }
+export enum TokenType {
+    //keywords
+    and = 'and',
+    elseIf = 'elseIf',
+    endFunction = 'endFunction',
+    endSub = 'endSub',
+    endWhile = 'endWhile',
+    eval = 'eval',
+    exitWhile = 'exitWhile',
+    if = 'if',
+    then = 'then',
+    else = 'else',
+    end = 'end',
+    endif = 'endif',
+    for = 'for',
+    to = 'to',
+    step = 'step',
+    exit = 'exit',
+    each = 'each',
+    while = 'while',
+    function = 'function',
+    sub = 'sub',
+    as = 'as',
+    return = 'return',
+    print = 'print',
+    rem = 'rem',
+    goto = 'goto',
+    dim = 'dim',
+    stop = 'stop',
+    void = 'void',
+    boolean = 'boolean',
+    integer = 'integer',
+    number = 'number',
+    longInteger = 'longInteger',
+    float = 'float',
+    double = 'double',
+    string = 'string',
+    object = 'object',
+    interface = 'interface',
+    invalid = 'invalid',
+    dynamic = 'dynamic',
+    type = 'type',
+    or = 'or',
+    let = 'let',
+    lineNum = 'lineNum',
+    next = 'next',
+    not = 'not',
+    run = 'run',
+
+    //symbols
+    singleQuoteSymbol = 'singleQuoteSymbol',
+    doubleQuoteSymbol = 'doubleQuoteSymbol',
+    openParenSymbol = 'openParenSymbol',
+    closeParenSymbol = 'closeParenSymbol',
+    openSquareBraceSymbol = 'openSquareBraceSymbol',
+    closeSquareBraceSymbol = 'closeSquareBraceSymbol',
+    openCurlyBraceSymbol = 'openCurlyBraceSymbol',
+    closeCurlyBraceSymbol = 'closeCurlyBraceSymbol',
+    periodSymbol = 'periodSymbol',
+    commaSymbol = 'commaSymbol',
+    semicolonSymbol = 'semicolonSymbol',
+    dashSymbol = 'dashSymbol',
+    percentSymbol = 'percentSymbol',
+    equalSymbol = 'equalSymbol',
+    lessThanSymbol = 'lessThanSymbol',
+    greaterThanSymbol = 'greaterThanSymbol',
+    colonSymbol = 'colonSymbol',
+
+    //literals
+    numberLiteral = 'numberLiteral',
+    booleanLiteral = 'booleanLiteral',
+    stringLiteral = 'stringLiteral',
+
+    //other
+    identifier = 'identifier',
+    newline = 'newline',
+    whitespace = 'whitespace',
+
+    //lexer specific
+    sequenceTerminator = 'sequenceTerminator',
+    invalidToken = 'invalidToken',
+}
+
+export const KeywordTokenTypes = [
+    TokenType.and,
+    TokenType.elseIf,
+    TokenType.endFunction,
+    TokenType.endSub,
+    TokenType.endWhile,
+    TokenType.eval,
+    TokenType.exitWhile,
+    TokenType.if,
+    TokenType.then,
+    TokenType.else,
+    TokenType.end,
+    TokenType.endif,
+    TokenType.for,
+    TokenType.to,
+    TokenType.step,
+    TokenType.exit,
+    TokenType.each,
+    TokenType.while,
+    TokenType.function,
+    TokenType.sub,
+    TokenType.as,
+    TokenType.return,
+    TokenType.print,
+    TokenType.rem,
+    TokenType.goto,
+    TokenType.dim,
+    TokenType.stop,
+    TokenType.void,
+    TokenType.number,
+    TokenType.boolean,
+    TokenType.integer,
+    TokenType.longInteger,
+    TokenType.float,
+    TokenType.double,
+    TokenType.string,
+    TokenType.object,
+    TokenType.interface,
+    TokenType.invalid,
+    TokenType.dynamic,
+    TokenType.type,
+    TokenType.or,
+    TokenType.let,
+    TokenType.lineNum,
+    TokenType.next,
+    TokenType.not,
+    TokenType.run,
+];
+
+export const SymbolTokenTypes = [
+    TokenType.singleQuoteSymbol,
+    TokenType.doubleQuoteSymbol,
+    TokenType.openParenSymbol,
+    TokenType.closeParenSymbol,
+    TokenType.openSquareBraceSymbol,
+    TokenType.closeSquareBraceSymbol,
+    TokenType.openCurlyBraceSymbol,
+    TokenType.closeCurlyBraceSymbol,
+    TokenType.periodSymbol,
+    TokenType.commaSymbol,
+    TokenType.semicolonSymbol,
+    TokenType.dashSymbol,
+    TokenType.percentSymbol,
+    TokenType.equalSymbol,
+    TokenType.lessThanSymbol,
+    TokenType.greaterThanSymbol,
+    TokenType.colonSymbol,
+];
+
+export const SymbolTokenTypeValues = {};
+SymbolTokenTypeValues[TokenType.singleQuoteSymbol] = '\'';
+SymbolTokenTypeValues[TokenType.doubleQuoteSymbol] = '"';
+SymbolTokenTypeValues[TokenType.openParenSymbol] = '(';
+SymbolTokenTypeValues[TokenType.closeParenSymbol] = ')';
+SymbolTokenTypeValues[TokenType.openSquareBraceSymbol] = '[';
+SymbolTokenTypeValues[TokenType.closeSquareBraceSymbol] = ']';
+SymbolTokenTypeValues[TokenType.openCurlyBraceSymbol] = '{';
+SymbolTokenTypeValues[TokenType.closeCurlyBraceSymbol] = '}';
+SymbolTokenTypeValues[TokenType.periodSymbol] = '.';
+SymbolTokenTypeValues[TokenType.commaSymbol] = ',';
+SymbolTokenTypeValues[TokenType.semicolonSymbol] = ';';
+SymbolTokenTypeValues[TokenType.dashSymbol] = '-';
+SymbolTokenTypeValues[TokenType.percentSymbol] = '%';
+SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
+SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
+SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
+SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
