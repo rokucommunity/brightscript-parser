@@ -1,4 +1,4 @@
-import { BrightscriptLexer, TokenType, KeywordTokenTypes, SymbolTokenTypeValues, Token } from './BrightscriptLexer';
+import { BrightscriptLexer, KeywordTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightscriptLexer';
 let lexer: BrightscriptLexer;
 beforeEach(() => {
     lexer = new BrightscriptLexer();
@@ -109,6 +109,11 @@ describe('BrightscriptLexer', () => {
     });
 
     describe('tokenize', () => {
+        it('should find invalid tokens', () => {
+            let program = 'k = #';
+            let tokens = lexer.tokenize(program);
+            expect(tokens[4].tokenType).toEqual(TokenType.INVALID_TOKEN);
+        });
         it('should combine back to the original program', () => {
             let program = `
                 sub DoSomething()
@@ -143,7 +148,7 @@ describe('BrightscriptLexer', () => {
                 TokenType.sub,
                 TokenType.newline,
                 TokenType.whitespace,
-                TokenType.sequenceTerminator
+                TokenType.SEQUENCE_TERMINATOR
             ]);
         });
     });

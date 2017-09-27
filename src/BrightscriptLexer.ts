@@ -78,7 +78,7 @@ export class BrightscriptLexer {
                 text = text.substring(1);
                 index++;
                 let token = {
-                    tokenType: TokenType.invalidToken,
+                    tokenType: TokenType.INVALID_TOKEN,
                     value,
                     startIndex: index
                 };
@@ -86,7 +86,7 @@ export class BrightscriptLexer {
             }
         }
         tokens.push({
-            tokenType: TokenType.sequenceTerminator,
+            tokenType: TokenType.SEQUENCE_TERMINATOR,
             value: null,
             startIndex: index
         });
@@ -191,8 +191,8 @@ export enum TokenType {
     whitespace = 'whitespace',
 
     //lexer specific
-    sequenceTerminator = 'sequenceTerminator',
-    invalidToken = 'invalidToken',
+    SEQUENCE_TERMINATOR = 'sequenceTerminator',
+    INVALID_TOKEN = 'invalidToken',
 }
 
 export const KeywordTokenTypes = [
