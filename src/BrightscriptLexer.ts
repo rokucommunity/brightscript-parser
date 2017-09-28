@@ -34,14 +34,31 @@ export class BrightscriptLexer {
     }
 
     public addTokenDefinitions() {
-        //add whitespace first (because it's probably the most common)
-        this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
+        //get comment literals (rem or quote followed by anything until newline or EOF
+        this.addTokenDefinition(TokenType.quoteComment, /^('.*)(?:(?:\r|\n|\r\n|\n\r)|$)/i);
+        this.addTokenDefinition(TokenType.remComment, /^(rem.*)(?:(?:\r|\n|\r\n|\n\r)|$)/i);
 
         //now add newlines
         this.addTokenDefinition(TokenType.newline, /^(\r|\n|\r\n|\n\r)/);
 
+        //add composite keywords (like "end if" and "endiff")
+        this.addTokenDefinition(TokenType.endFunction, /^(end\s*function)/i);
+        this.addTokenDefinition(TokenType.endIf, /^(end\s*if)/i);
+        this.addTokenDefinition(TokenType.endSub, /^(end\s*sub)/i);
+        this.addTokenDefinition(TokenType.endWhile, /^(end\s*while)/i);
+        this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)/i);
+        this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)/i);
+        this.addTokenDefinition(TokenType.endFor, /^(end\s*for)/i);
+        this.addTokenDefinition(TokenType.elseIf, /^(else\s*if)/i);
+
+        //add whitespace first (because it's probably the most common)
+        this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
+
         //now add keywords
         this.addKeywordTokenDefinitions(KeywordTokenTypes);
+
+
+
 
         //now add literal values
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
@@ -119,13 +136,14 @@ export enum TokenType {
     endFunction = 'endFunction',
     endSub = 'endSub',
     endWhile = 'endWhile',
+    endFor = 'endFor',
     eval = 'eval',
     exitWhile = 'exitWhile',
+    exitFor = 'exitFor',
     if = 'if',
     then = 'then',
     else = 'else',
-    end = 'end',
-    endif = 'endif',
+    endIf = 'endif',
     for = 'for',
     to = 'to',
     step = 'step',
@@ -137,7 +155,6 @@ export enum TokenType {
     as = 'as',
     return = 'return',
     print = 'print',
-    rem = 'rem',
     goto = 'goto',
     dim = 'dim',
     stop = 'stop',
@@ -161,8 +178,7 @@ export enum TokenType {
     not = 'not',
     run = 'run',
 
-    //symbols
-    singleQuoteSymbol = 'singleQuoteSymbol',
+    //symbols 
     doubleQuoteSymbol = 'doubleQuoteSymbol',
     openParenSymbol = 'openParenSymbol',
     closeParenSymbol = 'closeParenSymbol',
@@ -187,6 +203,8 @@ export enum TokenType {
 
     //other
     identifier = 'identifier',
+    quoteComment = 'quoteComment',
+    remComment = 'remComment',
     newline = 'newline',
     whitespace = 'whitespace',
 
@@ -197,17 +215,10 @@ export enum TokenType {
 
 export const KeywordTokenTypes = [
     TokenType.and,
-    TokenType.elseIf,
-    TokenType.endFunction,
-    TokenType.endSub,
-    TokenType.endWhile,
     TokenType.eval,
-    TokenType.exitWhile,
     TokenType.if,
     TokenType.then,
     TokenType.else,
-    TokenType.end,
-    TokenType.endif,
     TokenType.for,
     TokenType.to,
     TokenType.step,
@@ -219,7 +230,6 @@ export const KeywordTokenTypes = [
     TokenType.as,
     TokenType.return,
     TokenType.print,
-    TokenType.rem,
     TokenType.goto,
     TokenType.dim,
     TokenType.stop,
@@ -245,7 +255,6 @@ export const KeywordTokenTypes = [
 ];
 
 export const SymbolTokenTypes = [
-    TokenType.singleQuoteSymbol,
     TokenType.doubleQuoteSymbol,
     TokenType.openParenSymbol,
     TokenType.closeParenSymbol,
@@ -265,7 +274,6 @@ export const SymbolTokenTypes = [
 ];
 
 export const SymbolTokenTypeValues = {};
-SymbolTokenTypeValues[TokenType.singleQuoteSymbol] = '\'';
 SymbolTokenTypeValues[TokenType.doubleQuoteSymbol] = '"';
 SymbolTokenTypeValues[TokenType.openParenSymbol] = '(';
 SymbolTokenTypeValues[TokenType.closeParenSymbol] = ')';

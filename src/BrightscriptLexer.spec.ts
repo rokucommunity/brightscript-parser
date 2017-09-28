@@ -143,9 +143,7 @@ describe('BrightscriptLexer', () => {
                 TokenType.numberLiteral,
                 TokenType.newline,
                 TokenType.whitespace,
-                TokenType.end,
-                TokenType.whitespace,
-                TokenType.sub,
+                TokenType.endSub,
                 TokenType.newline,
                 TokenType.whitespace,
                 TokenType.SEQUENCE_TERMINATOR
