@@ -1,7 +1,7 @@
-import { BrightscriptLexer, KeywordTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightscriptLexer';
-let lexer: BrightscriptLexer;
+import { BrightScriptLexer, KeywordTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightScriptLexer';
+let lexer: BrightScriptLexer;
 beforeEach(() => {
-    lexer = new BrightscriptLexer();
+    lexer = new BrightScriptLexer();
     jasmine.addMatchers({
         toEqualCustom: function (util, customEqualityTesters) {
             return {
@@ -34,13 +34,13 @@ beforeEach(() => {
 function matchMany(tokenType: TokenType, textItems: string[]) {
     for (let text of textItems) {
         let match = lexer.getMatch(text);
-        expect(match ? match.tokenType : undefined).toEqualCustom([tokenType, text]);
+        (expect(match ? match.tokenType : undefined) as any).toEqualCustom([tokenType, text]);
     }
 }
 function notMatchMany(tokenType: TokenType, textItems: string[]) {
     for (let text of textItems) {
         let match = lexer.getMatch(text);
-        expect(match ? match.tokenType : undefined).not.toEqualCustom([tokenType, text]);
+        (expect(match ? match.tokenType : undefined) as any).not.toEqualCustom([tokenType, text]);
     }
 }
 function fkeywordIt(tokenType: TokenType) {

@@ -1,4 +1,4 @@
-export class BrightscriptLexer {
+export class BrightScriptLexer {
     private tokenDefinitions: { tokenType: TokenType, regexp: RegExp }[] = [];
 
     constructor() {
@@ -56,9 +56,6 @@ export class BrightscriptLexer {
 
         //now add keywords
         this.addKeywordTokenDefinitions(KeywordTokenTypes);
-
-
-
 
         //now add literal values
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
