@@ -101,7 +101,7 @@ export class BrightScriptLexer {
         }
         tokens.push({
             tokenType: TokenType.END_OF_FILE,
-            value: null,
+            value: '',
             startIndex: index
         });
         return tokens;
