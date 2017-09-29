@@ -1,21 +1,21 @@
 {
-  "name": "brightscript-lexer",
+  "name": "brightscript-parser",
   "version": "1.0.0",
-  "description": "A lexer for brightscript written in JavaScript",
+  "description": "A parser for Roku's BrightScript language, written in JavaScript",
   "main": "index.js",
   "scripts": {
     "test": "karma start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TwitchBronBron/brightscript-lexer.git"
+    "url": "git+https://github.com/TwitchBronBron/brightscript-parser.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TwitchBronBron/brightscript-lexer/issues"
+    "url": "https://github.com/TwitchBronBron/brightscript-parser/issues"
   },
-  "homepage": "https://github.com/TwitchBronBron/brightscript-lexer#readme",
+  "homepage": "https://github.com/TwitchBronBron/brightscript-parser#readme",
   "dependencies": {
     "@types/jasmine": "^2.6.0",
     "jasmine": "^2.8.0",
