@@ -100,7 +100,7 @@ export class BrightScriptLexer {
             }
         }
         tokens.push({
-            tokenType: TokenType.SEQUENCE_TERMINATOR,
+            tokenType: TokenType.END_OF_FILE,
             value: null,
             startIndex: index
         });
@@ -206,8 +206,8 @@ export enum TokenType {
     whitespace = 'whitespace',
 
     //lexer specific
-    SEQUENCE_TERMINATOR = 'sequenceTerminator',
-    INVALID_TOKEN = 'invalidToken',
+    END_OF_FILE = 'END_OF_FILE',
+    INVALID_TOKEN = 'INVALID_TOKEN',
 }
 
 export const KeywordTokenTypes = [

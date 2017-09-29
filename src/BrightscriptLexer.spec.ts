@@ -146,7 +146,7 @@ describe('BrightscriptLexer', () => {
                 TokenType.endSub,
                 TokenType.newline,
                 TokenType.whitespace,
-                TokenType.SEQUENCE_TERMINATOR
+                TokenType.END_OF_FILE
             ]);
         });
     });
