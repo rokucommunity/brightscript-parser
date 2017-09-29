@@ -1,9 +1,12 @@
 {
   "name": "brightscript-parser",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "description": "A parser for Roku's BrightScript language, written in JavaScript",
-  "main": "index.js",
+  "main": "out/index.js",
+  "typings": "out/index.d.ts",
   "scripts": {
+    "compile": "rimraf out && tsc",
+    "preinstall": "npm run compile",
     "test": "karma start"
   },
   "repository": {
