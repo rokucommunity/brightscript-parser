@@ -39,23 +39,23 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.remComment, /^(rem.*)(?:(?:\r|\n|\r\n|\n\r)|$)/i);
 
         //now add newlines
-        this.addTokenDefinition(TokenType.newline, /^(\r|\n|\r\n|\n\r)/);
+        this.addTokenDefinition(TokenType.newline, /^(\r\n|\n\r|\r|\n)/);
 
         //add composite keywords (like "end if" and "endiff")
-        this.addTokenDefinition(TokenType.endFunction, /^(end\s*function)/i);
-        this.addTokenDefinition(TokenType.endIf, /^(end\s*if)/i);
-        this.addTokenDefinition(TokenType.endSub, /^(end\s*sub)/i);
-        this.addTokenDefinition(TokenType.endWhile, /^(end\s*while)/i);
-        this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)/i);
-        this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)/i);
-        this.addTokenDefinition(TokenType.endFor, /^(end\s*for)/i);
-        this.addTokenDefinition(TokenType.elseIf, /^(else\s*if)/i);
+        this.addTokenDefinition(TokenType.endFunction, /^(end\s*function)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endIf, /^(end\s*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endSub, /^(end\s*sub)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endWhile, /^(end\s*while)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.elseIf, /^(else\s*if)(?![a-z_0-9])/i);
 
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
 
         //now add keywords
-        this.addKeywordTokenDefinitions(KeywordTokenTypes);
+        this.addKeywordTokenDefinitions(BasicKeywordTokenTypes);
 
         //now add literal values
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
@@ -123,7 +123,7 @@ export class BrightScriptLexer {
 
 export interface Token {
     tokenType: TokenType;
-    value: string | null;
+    value: string;
     startIndex: number;
 }
 export enum TokenType {
@@ -210,7 +210,21 @@ export enum TokenType {
     INVALID_TOKEN = 'INVALID_TOKEN',
 }
 
-export const KeywordTokenTypes = [
+/**
+ * composite keywords (like "endif" and "endfor")
+ */
+export const CompositeKeywordTokenTypes = [
+    TokenType.endFunction,
+    TokenType.endIf,
+    TokenType.endSub,
+    TokenType.endWhile,
+    TokenType.exitWhile,
+    TokenType.exitFor,
+    TokenType.endFor,
+    TokenType.elseIf
+];
+
+export const BasicKeywordTokenTypes = [
     TokenType.and,
     TokenType.eval,
     TokenType.if,
@@ -250,6 +264,10 @@ export const KeywordTokenTypes = [
     TokenType.not,
     TokenType.run,
 ];
+
+export let KeywordTokenTypes: TokenType[] = [];
+Array.prototype.push.apply(KeywordTokenTypes, CompositeKeywordTokenTypes);
+Array.prototype.push.apply(KeywordTokenTypes, BasicKeywordTokenTypes);
 
 export const SymbolTokenTypes = [
     TokenType.doubleQuoteSymbol,

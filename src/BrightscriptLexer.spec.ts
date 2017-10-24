@@ -48,10 +48,9 @@ function fkeywordIt(tokenType: TokenType) {
 }
 function keywordIt(tokenType: TokenType, exclusive = false) {
     let method = exclusive ? fit : it;
-    let keyword = <string>tokenType;
     method(tokenType, () => {
-        matchMany(tokenType, [keyword.toLowerCase(), keyword.toUpperCase(), `${keyword} `]);
-        notMatchMany(tokenType, [` ${keyword}`, `${keyword}WithOtherWord`, `wordThen${keyword}`]);
+        matchMany(tokenType, [tokenType.toLowerCase(), tokenType.toUpperCase(), `${tokenType} `]);
+        notMatchMany(tokenType, [` ${tokenType}`, `${tokenType}WithOtherWord`, `wordThen${tokenType}`]);
     });
 }
 function fsymbolIt(symbol: string, tokenType: TokenType) {
@@ -67,7 +66,6 @@ function symbolIt(symbol: string, tokenType: TokenType, exclusive = false) {
 
 describe('BrightscriptLexer', () => {
     describe('getMatch() works for --', () => {
-
         for (let keywordTokenType of KeywordTokenTypes) {
             keywordIt(keywordTokenType);
         }
@@ -114,6 +112,33 @@ describe('BrightscriptLexer', () => {
             let tokens = lexer.tokenize(program);
             expect(tokens[4].tokenType).toEqual(TokenType.INVALID_TOKEN);
         });
+
+        it('should not add extra newlines', () => {
+            let program = `sub Main()\r\n    showChannelSGScreen()\r\n    end sub`;
+            let tokens = lexer.tokenize(program);
+            let types: TokenType[] = [];
+            for (let token of tokens) {
+                types.push(token.tokenType);
+            }
+            expect(types).toEqual([
+                TokenType.sub,
+                TokenType.whitespace,
+                TokenType.identifier,
+                TokenType.openParenSymbol,
+                TokenType.closeParenSymbol,
+                TokenType.newline,
+                TokenType.whitespace,
+                TokenType.identifier,
+                TokenType.openParenSymbol,
+                TokenType.closeParenSymbol,
+                TokenType.newline,
+                TokenType.whitespace,
+                TokenType.endSub,
+                TokenType.END_OF_FILE
+            ]);
+        });
+
+
         it('should combine back to the original program', () => {
             let program = `
                 sub DoSomething()

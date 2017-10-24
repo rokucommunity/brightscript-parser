@@ -1,5 +1,6 @@
-src
-.vscode
+src/
+.vscode/
+coverage/
 karma.conf.js
 package-lock.json
 tsconfig.json

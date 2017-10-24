@@ -1,12 +1,12 @@
 {
   "name": "brightscript-parser",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.8",
   "description": "A parser for Roku's BrightScript language, written in JavaScript",
-  "main": "out/index.js",
-  "typings": "out/index.d.ts",
+  "main": "dist/BrightScriptLexer.js",
+  "types": "dist/BrightScriptLexer.d.ts",
   "scripts": {
-    "compile": "rimraf out && tsc",
-    "preinstall": "npm run compile",
+    "compile": "rimraf dist && tsc",
+    "prepublishOnly": "npm run compile",
     "test": "karma start"
   },
   "repository": {
@@ -19,7 +19,7 @@
     "url": "https://github.com/TwitchBronBron/brightscript-parser/issues"
   },
   "homepage": "https://github.com/TwitchBronBron/brightscript-parser#readme",
-  "dependencies": {
+  "devDependencies": {
     "@types/jasmine": "^2.6.0",
     "jasmine": "^2.8.0",
     "jasmine-core": "^2.8.0",
