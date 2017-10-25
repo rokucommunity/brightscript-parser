@@ -32,8 +32,8 @@ var BrightScriptLexer = /** @class */ (function () {
     };
     BrightScriptLexer.prototype.addTokenDefinitions = function () {
         //get comment literals (rem or quote followed by anything until newline or EOF
-        this.addTokenDefinition(TokenType.quoteComment, /^('.*)(?:(?:\r|\n|\r\n|\n\r)|$)/i);
-        this.addTokenDefinition(TokenType.remComment, /^(rem.*)(?:(?:\r|\n|\r\n|\n\r)|$)/i);
+        this.addTokenDefinition(TokenType.quoteComment, /^('.*)(?=\r|\n|\r\n|\n\r|$)/i);
+        this.addTokenDefinition(TokenType.remComment, /^(rem.*)(?=\r|\n|\r\n|\n\r|$)/i);
         //now add newlines
         this.addTokenDefinition(TokenType.newline, /^(\r\n|\n\r|\r|\n)/);
         //add composite keywords (like "end if" and "endiff")

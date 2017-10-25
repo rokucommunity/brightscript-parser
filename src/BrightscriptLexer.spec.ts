@@ -150,7 +150,6 @@ describe('BrightscriptLexer', () => {
             ]);
         });
 
-
         it('should combine back to the original program', () => {
             let program = `
                 sub DoSomething()
