@@ -1,4 +1,4 @@
-import { BrightScriptLexer, KeywordTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightScriptLexer';
+import { BrightScriptLexer, KeywordTokenTypes, MiscelaneousTokenTypes, SymbolTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightScriptLexer';
 let lexer: BrightScriptLexer;
 beforeEach(() => {
     lexer = new BrightScriptLexer();
@@ -63,6 +63,46 @@ function symbolIt(symbol: string, tokenType: TokenType, exclusive = false) {
         notMatchMany(tokenType, [` ${symbol}`, `something${symbol}`]);
     });
 }
+
+it('all tokens are placed into a bucket', () => {
+    let allTokenTypes: TokenType[] = [];
+    for (let tokenType in TokenType) {
+        allTokenTypes.push(<TokenType>tokenType);
+    }
+
+    //test that every symbol is represented in a bucket
+    let buckets = [
+        KeywordTokenTypes,
+        SymbolTokenTypes,
+        MiscelaneousTokenTypes
+    ];
+
+    for (let bucket of buckets) {
+        for (let tokenType of bucket) {
+            let index = allTokenTypes.indexOf(tokenType);
+            if (index > -1) {
+                allTokenTypes.splice(index, 1);
+            }
+        }
+    }
+    expect(allTokenTypes).toEqual([]);
+});
+
+it('all tokens have a token definition', () => {
+    let allTokenTypes: TokenType[] = [];
+    for (let tokenType in TokenType) {
+        allTokenTypes.push(<TokenType>tokenType);
+    }
+
+    for (let tokenDefinition of ((lexer as any).tokenDefinitions as { tokenType: TokenType }[])) {
+        let index = allTokenTypes.indexOf(tokenDefinition.tokenType);
+        if (index > -1) {
+            allTokenTypes.splice(index, 1);
+        }
+    }
+    //the only tokens that should not have a definition are the EOF and INVALID_TOKEN tokens
+    expect(allTokenTypes).toEqual([TokenType.END_OF_FILE, TokenType.INVALID_TOKEN]);
+});
 
 describe('BrightscriptLexer', () => {
     describe('getMatch() works for --', () => {

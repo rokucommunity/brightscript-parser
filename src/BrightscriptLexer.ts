@@ -16,8 +16,8 @@ export class BrightScriptLexer {
      */
     public addSymbolTokenDefinition(symbol: string, tokenType: TokenType) {
         //escape the symbol if need be
-        symbol = symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-        let regexp = new RegExp(`^(${symbol})`);
+        symbol = symbol.replace(/[.*+?^${}()|[\]\\]/gi, '\\$&'); // $& means the whole matched string
+        let regexp = new RegExp(`^(${symbol})`, 'i');
         this.addTokenDefinition(tokenType, regexp);
     }
 
@@ -140,7 +140,7 @@ export enum TokenType {
     if = 'if',
     then = 'then',
     else = 'else',
-    endIf = 'endif',
+    endIf = 'endIf',
     for = 'for',
     to = 'to',
     step = 'step',
@@ -176,6 +176,22 @@ export enum TokenType {
     run = 'run',
 
     //symbols 
+    additionAssignmentSymbol = 'additionAssignmentSymbol',
+    subtractionAssignmentSymbol = 'subtractionAssignmentSymbol',
+    multiplicationAssignmentSymbol = 'multiplicationAssignmentSymbol',
+    divisionAssignmentSymbol = 'divisionAssignmentSymbol',
+    integerDivisionAssignmentSymbol = 'integerDivisionAssignmentSymbol',
+    lessThanLessThanEqualSymbol = 'lessThanLessThanEqualSymbol',
+    greaterThanGreaterThanEqualSymbol = 'greaterThanGreaterThanEqualSymbol',
+    plusPlusSymbol = 'plusPlusSymbol',
+    minusMinusSymbol = 'minusMinusSymbol',
+    asteriskSymbol = 'asteriskSymbol',
+    forwardSlashSymbol = 'forwardSlashSymbol',
+    backSlashSymbol = 'backSlashSymbol',
+    modSymbol = 'modSymbol',
+    plusSymbol = 'plusSymbol',
+    minusSymbol = 'minusSymbol',
+    carotSymbol = 'carotSymbol',
     doubleQuoteSymbol = 'doubleQuoteSymbol',
     openParenSymbol = 'openParenSymbol',
     closeParenSymbol = 'closeParenSymbol',
@@ -186,7 +202,6 @@ export enum TokenType {
     periodSymbol = 'periodSymbol',
     commaSymbol = 'commaSymbol',
     semicolonSymbol = 'semicolonSymbol',
-    dashSymbol = 'dashSymbol',
     percentSymbol = 'percentSymbol',
     equalSymbol = 'equalSymbol',
     lessThanSymbol = 'lessThanSymbol',
@@ -270,6 +285,22 @@ Array.prototype.push.apply(KeywordTokenTypes, CompositeKeywordTokenTypes);
 Array.prototype.push.apply(KeywordTokenTypes, BasicKeywordTokenTypes);
 
 export const SymbolTokenTypes = [
+    TokenType.additionAssignmentSymbol,
+    TokenType.subtractionAssignmentSymbol,
+    TokenType.multiplicationAssignmentSymbol,
+    TokenType.divisionAssignmentSymbol,
+    TokenType.integerDivisionAssignmentSymbol,
+    TokenType.lessThanLessThanEqualSymbol,
+    TokenType.greaterThanGreaterThanEqualSymbol,
+    TokenType.plusPlusSymbol,
+    TokenType.minusMinusSymbol,
+    TokenType.carotSymbol,
+    TokenType.asteriskSymbol,
+    TokenType.forwardSlashSymbol,
+    TokenType.backSlashSymbol,
+    TokenType.modSymbol,
+    TokenType.plusSymbol,
+    TokenType.minusSymbol,
     TokenType.doubleQuoteSymbol,
     TokenType.openParenSymbol,
     TokenType.closeParenSymbol,
@@ -280,15 +311,42 @@ export const SymbolTokenTypes = [
     TokenType.periodSymbol,
     TokenType.commaSymbol,
     TokenType.semicolonSymbol,
-    TokenType.dashSymbol,
     TokenType.percentSymbol,
     TokenType.equalSymbol,
     TokenType.lessThanSymbol,
     TokenType.greaterThanSymbol,
-    TokenType.colonSymbol,
+    TokenType.colonSymbol
+];
+
+export const MiscelaneousTokenTypes = [
+    TokenType.numberLiteral,
+    TokenType.booleanLiteral,
+    TokenType.stringLiteral,
+    TokenType.identifier,
+    TokenType.quoteComment,
+    TokenType.remComment,
+    TokenType.newline,
+    TokenType.whitespace,
+    TokenType.END_OF_FILE,
+    TokenType.INVALID_TOKEN
 ];
 
 export const SymbolTokenTypeValues = {};
+SymbolTokenTypeValues[TokenType.plusPlusSymbol] = '++';
+SymbolTokenTypeValues[TokenType.minusMinusSymbol] = '--';
+SymbolTokenTypeValues[TokenType.additionAssignmentSymbol] = '+=';
+SymbolTokenTypeValues[TokenType.subtractionAssignmentSymbol] = '-=';
+SymbolTokenTypeValues[TokenType.multiplicationAssignmentSymbol] = '*=';
+SymbolTokenTypeValues[TokenType.divisionAssignmentSymbol] = '/=';
+SymbolTokenTypeValues[TokenType.integerDivisionAssignmentSymbol] = '\\=';
+SymbolTokenTypeValues[TokenType.lessThanLessThanEqualSymbol] = '<<=';
+SymbolTokenTypeValues[TokenType.greaterThanGreaterThanEqualSymbol] = '>>=';
+SymbolTokenTypeValues[TokenType.asteriskSymbol] = '*';
+SymbolTokenTypeValues[TokenType.forwardSlashSymbol] = '/';
+SymbolTokenTypeValues[TokenType.backSlashSymbol] = '\\';
+SymbolTokenTypeValues[TokenType.modSymbol] = 'MOD';
+SymbolTokenTypeValues[TokenType.plusSymbol] = '+';
+SymbolTokenTypeValues[TokenType.carotSymbol] = '^';
 SymbolTokenTypeValues[TokenType.doubleQuoteSymbol] = '"';
 SymbolTokenTypeValues[TokenType.openParenSymbol] = '(';
 SymbolTokenTypeValues[TokenType.closeParenSymbol] = ')';
@@ -299,7 +357,7 @@ SymbolTokenTypeValues[TokenType.closeCurlyBraceSymbol] = '}';
 SymbolTokenTypeValues[TokenType.periodSymbol] = '.';
 SymbolTokenTypeValues[TokenType.commaSymbol] = ',';
 SymbolTokenTypeValues[TokenType.semicolonSymbol] = ';';
-SymbolTokenTypeValues[TokenType.dashSymbol] = '-';
+SymbolTokenTypeValues[TokenType.minusSymbol] = '-';
 SymbolTokenTypeValues[TokenType.percentSymbol] = '%';
 SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
 SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';

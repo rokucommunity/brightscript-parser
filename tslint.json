@@ -9,6 +9,7 @@
         "quotemark": {
             "options": "single"
         },
+        "max-line-length": false,
         "no-trailing-whitespace": false,
         "comment-format": false,
         "prefer-const": false,
