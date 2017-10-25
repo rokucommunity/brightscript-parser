@@ -107,6 +107,18 @@ describe('BrightscriptLexer', () => {
     });
 
     describe('tokenize', () => {
+        it('comment tokens do not include newline character', () => {
+            let tokens;
+
+            tokens = lexer.tokenize(`'some comment'\n`);
+            expect(tokens[0].tokenType).toEqual(TokenType.quoteComment);
+            expect(tokens[1].tokenType).toEqual(TokenType.newline);
+
+            tokens = lexer.tokenize(`REMsome comment'\n`);
+            expect(tokens[0].tokenType).toEqual(TokenType.remComment);
+            expect(tokens[1].tokenType).toEqual(TokenType.newline);
+        });
+
         it('should find invalid tokens', () => {
             let program = 'k = #';
             let tokens = lexer.tokenize(program);
