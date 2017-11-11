@@ -35,7 +35,7 @@ export declare enum TokenType {
     if = "if",
     then = "then",
     else = "else",
-    endIf = "endif",
+    endIf = "endIf",
     for = "for",
     to = "to",
     step = "step",
@@ -69,6 +69,22 @@ export declare enum TokenType {
     next = "next",
     not = "not",
     run = "run",
+    additionAssignmentSymbol = "additionAssignmentSymbol",
+    subtractionAssignmentSymbol = "subtractionAssignmentSymbol",
+    multiplicationAssignmentSymbol = "multiplicationAssignmentSymbol",
+    divisionAssignmentSymbol = "divisionAssignmentSymbol",
+    integerDivisionAssignmentSymbol = "integerDivisionAssignmentSymbol",
+    lessThanLessThanEqualSymbol = "lessThanLessThanEqualSymbol",
+    greaterThanGreaterThanEqualSymbol = "greaterThanGreaterThanEqualSymbol",
+    plusPlusSymbol = "plusPlusSymbol",
+    minusMinusSymbol = "minusMinusSymbol",
+    asteriskSymbol = "asteriskSymbol",
+    forwardSlashSymbol = "forwardSlashSymbol",
+    backSlashSymbol = "backSlashSymbol",
+    modSymbol = "modSymbol",
+    plusSymbol = "plusSymbol",
+    minusSymbol = "minusSymbol",
+    carotSymbol = "carotSymbol",
     doubleQuoteSymbol = "doubleQuoteSymbol",
     openParenSymbol = "openParenSymbol",
     closeParenSymbol = "closeParenSymbol",
@@ -79,7 +95,6 @@ export declare enum TokenType {
     periodSymbol = "periodSymbol",
     commaSymbol = "commaSymbol",
     semicolonSymbol = "semicolonSymbol",
-    dashSymbol = "dashSymbol",
     percentSymbol = "percentSymbol",
     equalSymbol = "equalSymbol",
     lessThanSymbol = "lessThanSymbol",
@@ -103,4 +118,5 @@ export declare const CompositeKeywordTokenTypes: TokenType[];
 export declare const BasicKeywordTokenTypes: TokenType[];
 export declare let KeywordTokenTypes: TokenType[];
 export declare const SymbolTokenTypes: TokenType[];
+export declare const MiscelaneousTokenTypes: TokenType[];
 export declare const SymbolTokenTypeValues: {};

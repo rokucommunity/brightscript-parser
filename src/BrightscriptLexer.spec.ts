@@ -225,8 +225,35 @@ describe('BrightscriptLexer', () => {
                 TokenType.END_OF_FILE
             ]);
         });
+
+        fit('handles special cases', () => {
+            let program = `Else If Type(value)="roAssociativeArray" then`;
+            let tokens = lexer.tokenize(program);
+            expect(stringify(tokens)).toEqual(program);
+            expect(getTypes(tokens)).toEqual([
+                TokenType.elseIf,
+                TokenType.whitespace,
+                TokenType.identifier,
+                TokenType.openParenSymbol,
+                TokenType.identifier,
+                TokenType.closeParenSymbol,
+                TokenType.equalSymbol,
+                TokenType.stringLiteral,
+                TokenType.whitespace,
+                TokenType.then,
+                TokenType.END_OF_FILE
+            ]);
+        });
     });
 });
+
+function getTypes(tokens: Token[]) {
+    let types: TokenType[] = [];
+    for (let token of tokens) {
+        types.push(token.tokenType);
+    }
+    return types;
+}
 
 function stringify(tokens: Token[]) {
     let result = '';
