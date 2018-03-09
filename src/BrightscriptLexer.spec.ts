@@ -225,24 +225,64 @@ describe('BrightscriptLexer', () => {
                 TokenType.END_OF_FILE
             ]);
         });
+        describe('special cases', () => {
+            it('special case #1', () => {
+                let program = `Else If Type(value)="roAssociativeArray" then`;
+                let tokens = lexer.tokenize(program);
+                expect(stringify(tokens)).toEqual(program);
+                expect(getTypes(tokens)).toEqual([
+                    TokenType.elseIf,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.openParenSymbol,
+                    TokenType.identifier,
+                    TokenType.closeParenSymbol,
+                    TokenType.equalSymbol,
+                    TokenType.stringLiteral,
+                    TokenType.whitespace,
+                    TokenType.then,
+                    TokenType.END_OF_FILE
+                ]);
+            });
 
-        fit('handles special cases', () => {
-            let program = `Else If Type(value)="roAssociativeArray" then`;
-            let tokens = lexer.tokenize(program);
-            expect(stringify(tokens)).toEqual(program);
-            expect(getTypes(tokens)).toEqual([
-                TokenType.elseIf,
-                TokenType.whitespace,
-                TokenType.identifier,
-                TokenType.openParenSymbol,
-                TokenType.identifier,
-                TokenType.closeParenSymbol,
-                TokenType.equalSymbol,
-                TokenType.stringLiteral,
-                TokenType.whitespace,
-                TokenType.then,
-                TokenType.END_OF_FILE
-            ]);
+            fit('nested if statements', () => {
+                let program = `if true then\n    doSomething()\nelse\n    if true then\n        doSomething()\n    end if\n    end if`;
+                let tokens = lexer.tokenize(program);
+                expect(stringify(tokens)).toEqual(program);
+                expect(getTypes(tokens)).toEqual([
+                    TokenType.if,
+                    TokenType.whitespace,
+                    TokenType.booleanLiteral,
+                    TokenType.whitespace,
+                    TokenType.then,
+                    TokenType.newline,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.openParenSymbol,
+                    TokenType.closeParenSymbol,
+                    TokenType.newline,
+                    TokenType.else,
+                    TokenType.newline,
+                    TokenType.whitespace,
+                    TokenType.if,
+                    TokenType.whitespace,
+                    TokenType.booleanLiteral,
+                    TokenType.whitespace,
+                    TokenType.then,
+                    TokenType.newline,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.openParenSymbol,
+                    TokenType.closeParenSymbol,
+                    TokenType.newline,
+                    TokenType.whitespace,
+                    TokenType.endIf,
+                    TokenType.newline,
+                    TokenType.whitespace,
+                    TokenType.endIf,
+                    TokenType.END_OF_FILE
+                ]);
+            });
         });
     });
 });

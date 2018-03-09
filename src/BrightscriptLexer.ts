@@ -49,7 +49,7 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.elseIf, /^(else\s*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]if)(?![a-z_0-9])/i);
 
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
