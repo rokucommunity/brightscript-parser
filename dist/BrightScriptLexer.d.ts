@@ -12,10 +12,14 @@ export declare class BrightScriptLexer {
     addKeywordTokenDefinitions(tokenTypes: TokenType[]): void;
     addTokenDefinitions(): void;
     tokenize(text: string): Token[];
-    getMatch(text: string): {
-        tokenType: TokenType;
-        value: string;
-    };
+    /**
+     * Keywords will match before identifiers, so this will backtrack the captured
+     * tokens to determine if this match is actually an identifier and not a keyword
+     * @param match
+     * @param tokens
+     */
+    matchIsIdentifier(match: Match, tokens: Token[]): boolean | undefined;
+    getMatch(text: string): Match;
 }
 export interface Token {
     tokenType: TokenType;
@@ -62,7 +66,6 @@ export declare enum TokenType {
     interface = "interface",
     invalid = "invalid",
     dynamic = "dynamic",
-    type = "type",
     or = "or",
     let = "let",
     lineNum = "lineNum",
@@ -120,3 +123,7 @@ export declare let KeywordTokenTypes: TokenType[];
 export declare const SymbolTokenTypes: TokenType[];
 export declare const MiscelaneousTokenTypes: TokenType[];
 export declare const SymbolTokenTypeValues: {};
+export interface Match {
+    tokenType: TokenType;
+    value: string;
+}

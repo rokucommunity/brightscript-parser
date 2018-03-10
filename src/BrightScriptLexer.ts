@@ -72,6 +72,7 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.identifier, /^([a-z_]+[a-z0-9_]*)/i);
 
     }
+
     public tokenize(text: string) {
         let tokens: Token[] = [];
         let index = 0;
@@ -84,6 +85,11 @@ export class BrightScriptLexer {
                     value,
                     startIndex: index
                 };
+                let isKeywordTokenType = KeywordTokenTypes.indexOf(match.tokenType) > -1;
+                //if we found a keyword, determine if it's actually an identifier
+                if (isKeywordTokenType && this.matchIsIdentifier(match, tokens)) {
+                    token.tokenType = TokenType.identifier;
+                }
                 text = text.substring(token.value.length);
                 index += token.value.length;
                 tokens.push(token);
@@ -107,7 +113,28 @@ export class BrightScriptLexer {
         return tokens;
     }
 
-    public getMatch(text: string): { tokenType: TokenType, value: string } {
+    /**
+     * Keywords will match before identifiers, so this will backtrack the captured
+     * tokens to determine if this match is actually an identifier and not a keyword
+     * @param match 
+     * @param tokens 
+     */
+    public matchIsIdentifier(match: Match, tokens: Token[]) {
+        for (let i = tokens.length - 1; i >= 0; i--) {
+            let token = tokens[i];
+            //eat any whitespace characters
+            if (token.tokenType === TokenType.whitespace) {
+                continue;
+            }
+            if (token.tokenType === TokenType.periodSymbol) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public getMatch(text: string): Match {
         for (let def of this.tokenDefinitions) {
             let match = def.regexp.exec(text);
             if (match) {
@@ -361,3 +388,8 @@ SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
 SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
 SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
+
+export interface Match {
+    tokenType: TokenType;
+    value: string;
+}

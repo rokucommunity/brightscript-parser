@@ -283,6 +283,29 @@ describe('BrightscriptLexer', () => {
                     TokenType.END_OF_FILE
                 ]);
             });
+            it('method called "next"', () => {
+                let program = `m.top.returnString = m.someArray.next()`;
+                let tokens = lexer.tokenize(program);
+                expect(stringify(tokens)).toEqual(program);
+                expect(getTypes(tokens)).toEqual([
+                    TokenType.identifier,
+                    TokenType.periodSymbol,
+                    TokenType.identifier,
+                    TokenType.periodSymbol,
+                    TokenType.identifier,
+                    TokenType.whitespace,
+                    TokenType.equalSymbol,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.periodSymbol,
+                    TokenType.identifier,
+                    TokenType.periodSymbol,
+                    TokenType.identifier,
+                    TokenType.openParenSymbol,
+                    TokenType.closeParenSymbol,
+                    TokenType.END_OF_FILE
+                ]);
+            });
         });
     });
 });

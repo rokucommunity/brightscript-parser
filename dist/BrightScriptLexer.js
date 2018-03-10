@@ -73,6 +73,11 @@ var BrightScriptLexer = /** @class */ (function () {
                     value: value,
                     startIndex: index
                 };
+                // let isKeywordTokenType = KeywordTokenTypes.indexOf(match.tokenType) > -1;
+                // //if we found a keyword, determine if it's actually an identifier
+                // if (isKeywordTokenType && this.matchIsIdentifier(match, tokens)) {
+                //     token.tokenType = TokenType.identifier;
+                // }
                 text = text.substring(token.value.length);
                 index += token.value.length;
                 tokens.push(token);
@@ -95,6 +100,27 @@ var BrightScriptLexer = /** @class */ (function () {
             startIndex: index
         });
         return tokens;
+    };
+    /**
+     * Keywords will match before identifiers, so this will backtrack the captured
+     * tokens to determine if this match is actually an identifier and not a keyword
+     * @param match
+     * @param tokens
+     */
+    BrightScriptLexer.prototype.matchIsIdentifier = function (match, tokens) {
+        for (var i = tokens.length - 1; i >= 0; i--) {
+            var token = tokens[i];
+            //eat any whitespace characters
+            if (token.tokenType === TokenType.whitespace) {
+                continue;
+            }
+            if (token.tokenType === TokenType.periodSymbol) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     };
     BrightScriptLexer.prototype.getMatch = function (text) {
         for (var _i = 0, _a = this.tokenDefinitions; _i < _a.length; _i++) {

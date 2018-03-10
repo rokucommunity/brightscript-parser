@@ -11,6 +11,14 @@ module.exports = function (config) {
       'src/**/*.ts': ['karma-typescript']
     },
     reporters: ['progress', 'karma-typescript'],
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        sourceMap: true
+      },
+      coverageOptions: {
+        instrumentation: true
+      }
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
