@@ -44,7 +44,7 @@ var BrightScriptLexer = /** @class */ (function () {
         this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.elseIf, /^(else\s*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]if)(?![a-z_0-9])/i);
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
         //now add keywords
@@ -154,7 +154,6 @@ var TokenType;
     TokenType["interface"] = "interface";
     TokenType["invalid"] = "invalid";
     TokenType["dynamic"] = "dynamic";
-    TokenType["type"] = "type";
     TokenType["or"] = "or";
     TokenType["let"] = "let";
     TokenType["lineNum"] = "lineNum";
@@ -252,7 +251,6 @@ exports.BasicKeywordTokenTypes = [
     TokenType.interface,
     TokenType.invalid,
     TokenType.dynamic,
-    TokenType.type,
     TokenType.or,
     TokenType.let,
     TokenType.lineNum,

@@ -245,7 +245,7 @@ describe('BrightscriptLexer', () => {
                 ]);
             });
 
-            fit('nested if statements', () => {
+            it('nested if statements', () => {
                 let program = `if true then\n    doSomething()\nelse\n    if true then\n        doSomething()\n    end if\n    end if`;
                 let tokens = lexer.tokenize(program);
                 expect(stringify(tokens)).toEqual(program);
