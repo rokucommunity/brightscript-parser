@@ -59,7 +59,7 @@ export class BrightScriptLexer {
 
         //now add literal values
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.stringLiteral, /^(".*")/);
+        this.addTokenDefinition(TokenType.stringLiteral, /^("([^"]|"")*")/);
         this.addTokenDefinition(TokenType.numberLiteral, /^(\d)/);
 
         //now add all symbols

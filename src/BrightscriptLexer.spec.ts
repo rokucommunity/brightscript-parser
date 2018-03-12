@@ -225,6 +225,37 @@ describe('BrightscriptLexer', () => {
                 TokenType.END_OF_FILE
             ]);
         });
+
+        describe('string literals', () => {
+            it('works with basic strings', () => {
+                expect(getTypes(lexer.tokenize(`"foo"`))).toEqual([
+                    TokenType.stringLiteral,
+                    TokenType.END_OF_FILE
+                ]);
+            });
+
+            it('works with concatenation', () => {
+                expect(getTypes(lexer.tokenize(`"foo" + "bar"`))).toEqual([
+                    TokenType.stringLiteral,
+                    TokenType.whitespace,
+                    TokenType.plusSymbol,
+                    TokenType.whitespace,
+                    TokenType.stringLiteral,
+                    TokenType.END_OF_FILE
+                ]);
+            });
+            it('works with escaped quotemarks', () => {
+                expect(getTypes(lexer.tokenize(`"""foo"""`))).toEqual([
+                    TokenType.stringLiteral,
+                    TokenType.END_OF_FILE
+                ]);
+
+                expect(getTypes(lexer.tokenize(`"foo""foo""foo"`))).toEqual([
+                    TokenType.stringLiteral,
+                    TokenType.END_OF_FILE
+                ]);
+            });
+        });
         describe('special cases', () => {
             it('special case #1', () => {
                 let program = `Else If Type(value)="roAssociativeArray" then`;
@@ -243,6 +274,42 @@ describe('BrightscriptLexer', () => {
                     TokenType.then,
                     TokenType.END_OF_FILE
                 ]);
+            });
+
+            it('square brace accessor', () => {
+                let program = `function test()\n    asdf = "asdf: " + anytostring(m.asdf["asdf"])\nend function`;
+                let tokens = lexer.tokenize(program);
+                expect(stringify(tokens)).toEqual(program);
+                expect(getTypes(tokens)).toEqual([
+                    TokenType.function,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.openParenSymbol,
+                    TokenType.closeParenSymbol,
+                    TokenType.newline,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.whitespace,
+                    TokenType.equalSymbol,
+                    TokenType.whitespace,
+                    TokenType.stringLiteral,
+                    TokenType.whitespace,
+                    TokenType.plusSymbol,
+                    TokenType.whitespace,
+                    TokenType.identifier,
+                    TokenType.openParenSymbol,
+                    TokenType.identifier,
+                    TokenType.periodSymbol,
+                    TokenType.identifier,
+                    TokenType.openSquareBraceSymbol,
+                    TokenType.stringLiteral,
+                    TokenType.closeSquareBraceSymbol,
+                    TokenType.closeParenSymbol,
+                    TokenType.newline,
+                    TokenType.endFunction,
+                    TokenType.END_OF_FILE
+                ]);
+
             });
 
             it('nested if statements', () => {

@@ -44,14 +44,14 @@ var BrightScriptLexer = /** @class */ (function () {
         this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]*if)(?![a-z_0-9])/i);
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
         //now add keywords
         this.addKeywordTokenDefinitions(exports.BasicKeywordTokenTypes);
         //now add literal values
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.stringLiteral, /^(".*")/);
+        this.addTokenDefinition(TokenType.stringLiteral, /^("([^"]|"")*")/);
         this.addTokenDefinition(TokenType.numberLiteral, /^(\d)/);
         //now add all symbols
         for (var tokenType in exports.SymbolTokenTypeValues) {
@@ -73,11 +73,11 @@ var BrightScriptLexer = /** @class */ (function () {
                     value: value,
                     startIndex: index
                 };
-                // let isKeywordTokenType = KeywordTokenTypes.indexOf(match.tokenType) > -1;
-                // //if we found a keyword, determine if it's actually an identifier
-                // if (isKeywordTokenType && this.matchIsIdentifier(match, tokens)) {
-                //     token.tokenType = TokenType.identifier;
-                // }
+                var isKeywordTokenType = exports.KeywordTokenTypes.indexOf(match.tokenType) > -1;
+                //if we found a keyword, determine if it's actually an identifier
+                if (isKeywordTokenType && this.matchIsIdentifier(match, tokens)) {
+                    token.tokenType = TokenType.identifier;
+                }
                 text = text.substring(token.value.length);
                 index += token.value.length;
                 tokens.push(token);
