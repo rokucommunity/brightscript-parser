@@ -21,6 +21,7 @@
         "radix": false,
         "eofline": false,
         "interface-name": false,
+        "ordered-imports": false,
         "whitespace": {
             "options": [
                 "check-branch",

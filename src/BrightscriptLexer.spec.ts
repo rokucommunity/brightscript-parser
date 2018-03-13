@@ -1,46 +1,33 @@
 import { BrightScriptLexer, KeywordTokenTypes, MiscelaneousTokenTypes, SymbolTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightScriptLexer';
+import { expect } from 'chai';
+
 let lexer: BrightScriptLexer;
+
 beforeEach(() => {
     lexer = new BrightScriptLexer();
-    jasmine.addMatchers({
-        toEqualCustom: function (util, customEqualityTesters) {
-            return {
-                compare: function (actual: any, expected: any) {
-                    let result = {
-                        message: <string | undefined>undefined,
-                        pass: true
-                    };
-                    result.pass = util.equals(actual, expected[0]);
-                    if (result.pass === false) {
-                        result.message = `Expected '${actual}' to equal '${expected[0]}' for '${expected[1]}'`;
-                    }
-                    return result;
-                },
-                negativeCompare: function (actual: any, expected: any) {
-                    let result = {
-                        message: <string | undefined>undefined,
-                        pass: true
-                    };
-                    result.pass = !util.equals(actual, expected[0]);
-                    if (result.pass === false) {
-                        result.message = `Expected '${actual}' not to equal '${expected[0]}' for '${expected[1]}'`;
-                    }
-                    return result;
-                }
-            };
-        }
-    });
 });
+
 function matchMany(tokenType: TokenType, textItems: string[]) {
     for (let text of textItems) {
         let match = lexer.getMatch(text);
-        (expect(match ? match.tokenType : undefined) as any).toEqualCustom([tokenType, text]);
+        let matchTokenType = match ? match.tokenType : undefined;
+
+        let errorMessage = `Expected '${matchTokenType}' to equal '${tokenType}' for '${text}'`;
+
+        expect(matchTokenType, errorMessage).to.equal(tokenType);
+        // (expect(match ? match.tokenType : undefined) as any).toEqualCustom([tokenType, text]);
     }
 }
 function notMatchMany(tokenType: TokenType, textItems: string[]) {
     for (let text of textItems) {
         let match = lexer.getMatch(text);
-        (expect(match ? match.tokenType : undefined) as any).not.toEqualCustom([tokenType, text]);
+        let matchTokenType = match ? match.tokenType : undefined;
+
+        let errorMessage = `Expected '${matchTokenType}' NOT to equal '${tokenType}' for '${text}'`;
+
+        expect(matchTokenType, errorMessage).not.to.equal(tokenType);
+
+        //    (expect(match ? match.tokenType : undefined) as any).not.toEqualCustom([tokenType, text]);
     }
 }
 function fkeywordIt(tokenType: TokenType) {
@@ -85,7 +72,7 @@ it('all tokens are placed into a bucket', () => {
             }
         }
     }
-    expect(allTokenTypes).toEqual([]);
+    expect(allTokenTypes).to.deep.equal([]);
 });
 
 it('all tokens have a token definition', () => {
@@ -101,7 +88,7 @@ it('all tokens have a token definition', () => {
         }
     }
     //the only tokens that should not have a definition are the EOF and INVALID_TOKEN tokens
-    expect(allTokenTypes).toEqual([TokenType.END_OF_FILE, TokenType.INVALID_TOKEN]);
+    expect(allTokenTypes).to.deep.equal([TokenType.END_OF_FILE, TokenType.INVALID_TOKEN]);
 });
 
 describe('BrightscriptLexer', () => {
@@ -151,18 +138,18 @@ describe('BrightscriptLexer', () => {
             let tokens;
 
             tokens = lexer.tokenize(`'some comment'\n`);
-            expect(tokens[0].tokenType).toEqual(TokenType.quoteComment);
-            expect(tokens[1].tokenType).toEqual(TokenType.newline);
+            expect(tokens[0].tokenType).to.deep.equal(TokenType.quoteComment);
+            expect(tokens[1].tokenType).to.deep.equal(TokenType.newline);
 
             tokens = lexer.tokenize(`REMsome comment'\n`);
-            expect(tokens[0].tokenType).toEqual(TokenType.remComment);
-            expect(tokens[1].tokenType).toEqual(TokenType.newline);
+            expect(tokens[0].tokenType).to.deep.equal(TokenType.remComment);
+            expect(tokens[1].tokenType).to.deep.equal(TokenType.newline);
         });
 
         it('should find invalid tokens', () => {
             let program = 'k = #';
             let tokens = lexer.tokenize(program);
-            expect(tokens[4].tokenType).toEqual(TokenType.INVALID_TOKEN);
+            expect(tokens[4].tokenType).to.deep.equal(TokenType.INVALID_TOKEN);
         });
 
         it('should not add extra newlines', () => {
@@ -172,7 +159,7 @@ describe('BrightscriptLexer', () => {
             for (let token of tokens) {
                 types.push(token.tokenType);
             }
-            expect(types).toEqual([
+            expect(types).to.deep.equal([
                 TokenType.sub,
                 TokenType.whitespace,
                 TokenType.identifier,
@@ -197,12 +184,12 @@ describe('BrightscriptLexer', () => {
                 end sub
             `;
             let tokens = lexer.tokenize(program);
-            expect(stringify(tokens)).toEqual(program);
+            expect(stringify(tokens)).to.deep.equal(program);
             let types: TokenType[] = [];
             for (let token of tokens) {
                 types.push(token.tokenType);
             }
-            expect(types).toEqual([
+            expect(types).to.deep.equal([
                 TokenType.newline,
                 TokenType.whitespace,
                 TokenType.sub,
@@ -228,14 +215,14 @@ describe('BrightscriptLexer', () => {
 
         describe('string literals', () => {
             it('works with basic strings', () => {
-                expect(getTypes(lexer.tokenize(`"foo"`))).toEqual([
+                expect(getTypes(lexer.tokenize(`"foo"`))).to.deep.equal([
                     TokenType.stringLiteral,
                     TokenType.END_OF_FILE
                 ]);
             });
 
             it('works with concatenation', () => {
-                expect(getTypes(lexer.tokenize(`"foo" + "bar"`))).toEqual([
+                expect(getTypes(lexer.tokenize(`"foo" + "bar"`))).to.deep.equal([
                     TokenType.stringLiteral,
                     TokenType.whitespace,
                     TokenType.plusSymbol,
@@ -245,12 +232,12 @@ describe('BrightscriptLexer', () => {
                 ]);
             });
             it('works with escaped quotemarks', () => {
-                expect(getTypes(lexer.tokenize(`"""foo"""`))).toEqual([
+                expect(getTypes(lexer.tokenize(`"""foo"""`))).to.deep.equal([
                     TokenType.stringLiteral,
                     TokenType.END_OF_FILE
                 ]);
 
-                expect(getTypes(lexer.tokenize(`"foo""foo""foo"`))).toEqual([
+                expect(getTypes(lexer.tokenize(`"foo""foo""foo"`))).to.deep.equal([
                     TokenType.stringLiteral,
                     TokenType.END_OF_FILE
                 ]);
@@ -260,8 +247,8 @@ describe('BrightscriptLexer', () => {
             it('special case #1', () => {
                 let program = `Else If Type(value)="roAssociativeArray" then`;
                 let tokens = lexer.tokenize(program);
-                expect(stringify(tokens)).toEqual(program);
-                expect(getTypes(tokens)).toEqual([
+                expect(stringify(tokens)).to.deep.equal(program);
+                expect(getTypes(tokens)).to.deep.equal([
                     TokenType.elseIf,
                     TokenType.whitespace,
                     TokenType.identifier,
@@ -279,8 +266,8 @@ describe('BrightscriptLexer', () => {
             it('square brace accessor', () => {
                 let program = `function test()\n    asdf = "asdf: " + anytostring(m.asdf["asdf"])\nend function`;
                 let tokens = lexer.tokenize(program);
-                expect(stringify(tokens)).toEqual(program);
-                expect(getTypes(tokens)).toEqual([
+                expect(stringify(tokens)).to.deep.equal(program);
+                expect(getTypes(tokens)).to.deep.equal([
                     TokenType.function,
                     TokenType.whitespace,
                     TokenType.identifier,
@@ -315,8 +302,8 @@ describe('BrightscriptLexer', () => {
             it('nested if statements', () => {
                 let program = `if true then\n    doSomething()\nelse\n    if true then\n        doSomething()\n    end if\n    end if`;
                 let tokens = lexer.tokenize(program);
-                expect(stringify(tokens)).toEqual(program);
-                expect(getTypes(tokens)).toEqual([
+                expect(stringify(tokens)).to.deep.equal(program);
+                expect(getTypes(tokens)).to.deep.equal([
                     TokenType.if,
                     TokenType.whitespace,
                     TokenType.booleanLiteral,
@@ -353,8 +340,8 @@ describe('BrightscriptLexer', () => {
             it('method called "next"', () => {
                 let program = `m.top.returnString = m.someArray.next()`;
                 let tokens = lexer.tokenize(program);
-                expect(stringify(tokens)).toEqual(program);
-                expect(getTypes(tokens)).toEqual([
+                expect(stringify(tokens)).to.deep.equal(program);
+                expect(getTypes(tokens)).to.deep.equal([
                     TokenType.identifier,
                     TokenType.periodSymbol,
                     TokenType.identifier,
