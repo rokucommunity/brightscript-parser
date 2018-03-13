@@ -34,7 +34,7 @@ function fkeywordIt(tokenType: TokenType) {
     keywordIt(tokenType, true);
 }
 function keywordIt(tokenType: TokenType, exclusive = false) {
-    let method = exclusive ? fit : it;
+    let method = exclusive ? it.only : it;
     method(tokenType, () => {
         matchMany(tokenType, [tokenType.toLowerCase(), tokenType.toUpperCase(), `${tokenType} `]);
         notMatchMany(tokenType, [` ${tokenType}`, `${tokenType}WithOtherWord`, `wordThen${tokenType}`]);
@@ -44,7 +44,7 @@ function fsymbolIt(symbol: string, tokenType: TokenType) {
     symbolIt(symbol, tokenType, true);
 }
 function symbolIt(symbol: string, tokenType: TokenType, exclusive = false) {
-    let method = exclusive ? fit : it;
+    let method = exclusive ? it.only : it;
     method(tokenType, () => {
         matchMany(tokenType, [symbol, `${symbol},`, `${symbol})(`, `${symbol}Something`]);
         notMatchMany(tokenType, [` ${symbol}`, `something${symbol}`]);

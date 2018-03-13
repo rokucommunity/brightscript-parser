@@ -35,7 +35,12 @@
       "html"
     ],
     "sourceMap": true,
-    "instrument": true
+    "instrument": true,
+    "check-coverage": true,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
