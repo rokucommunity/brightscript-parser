@@ -1,6 +1,6 @@
 {
   "name": "brightscript-parser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A parser for Roku's BrightScript language, written in JavaScript",
   "main": "dist/BrightScriptLexer.js",
   "types": "dist/BrightScriptLexer.d.ts",
