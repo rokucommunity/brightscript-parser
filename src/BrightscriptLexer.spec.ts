@@ -135,15 +135,22 @@ describe('BrightscriptLexer', () => {
 
     describe('tokenize', () => {
         it('comment tokens do not include newline character', () => {
-            let tokens;
+            expect(tokenize(`'some comment\n`)).to.deep.equal([TokenType.quoteComment, TokenType.newline, TokenType.END_OF_FILE]);
 
-            tokens = lexer.tokenize(`'some comment'\n`);
-            expect(tokens[0].tokenType).to.deep.equal(TokenType.quoteComment);
-            expect(tokens[1].tokenType).to.deep.equal(TokenType.newline);
-
-            tokens = lexer.tokenize(`REMsome comment'\n`);
+            let tokens = lexer.tokenize(`REM some comment\n`);
             expect(tokens[0].tokenType).to.deep.equal(TokenType.remComment);
             expect(tokens[1].tokenType).to.deep.equal(TokenType.newline);
+        });
+
+        it('comment tokens are not captured within string literal', () => {
+            expect(tokenize(`REM some comment\n`)).to.deep.equal([TokenType.remComment, TokenType.newline, TokenType.END_OF_FILE]);
+        });
+
+        it('should not extract keywords from words that start with those keywords', () => {
+            expect(getTypes(lexer.tokenize('reminder'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
+            expect(getTypes(lexer.tokenize('fortune'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
+            expect(getTypes(lexer.tokenize('nextThing'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
+            expect(getTypes(lexer.tokenize('andThen'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
         });
 
         it('should find invalid tokens', () => {
@@ -378,4 +385,8 @@ function stringify(tokens: Token[]) {
         result += token.value ? token.value : '';
     }
     return result;
+}
+
+function tokenize(text: string) {
+    return getTypes(lexer.tokenize(text));
 }
