@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "rimraf dist && tsc",
     "prepublishOnly": "npm run compile",
-    "test": "nyc mocha src/**/*.spec.ts --compilers ts-node/register --require source-map-support/register --full-trace --bail",
+    "test": "nyc mocha src/**/*.spec.ts --full-trace --bail",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -28,7 +28,8 @@
       ".ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "source-map-support/register"
     ],
     "reporter": [
       "text-summary",

@@ -151,6 +151,7 @@ describe('BrightscriptLexer', () => {
             expect(getTypes(lexer.tokenize('fortune'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
             expect(getTypes(lexer.tokenize('nextThing'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
             expect(getTypes(lexer.tokenize('andThen'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
+            expect(getTypes(lexer.tokenize('elseIfSomething'))).to.deep.equal([TokenType.identifier, TokenType.END_OF_FILE]);
         });
 
         it('should find invalid tokens', () => {
