@@ -7,7 +7,7 @@ export class BrightScriptLexer {
 
     public addTokenDefinition(tokenType: TokenType, regexp: RegExp) {
         this.tokenDefinitions.push({ tokenType, regexp });
-    }
+     }
 
     /**
      * Add a symbol token definition with the standard regexp for symbols
@@ -50,7 +50,9 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]*if)(?![a-z_0-9])/i);
-
+        this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condEndIf, /^(#end\s*if)(?![a-z_0-9])/i);
+        
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
 
@@ -200,6 +202,9 @@ export enum TokenType {
     next = 'next',
     not = 'not',
     run = 'run',
+    condIf = 'condIf',
+    condElseIf = 'condElseIf',
+    condEndIf = 'condEndIf',
 
     //symbols 
     additionAssignmentSymbol = 'additionAssignmentSymbol',
@@ -233,6 +238,7 @@ export enum TokenType {
     lessThanSymbol = 'lessThanSymbol',
     greaterThanSymbol = 'greaterThanSymbol',
     colonSymbol = 'colonSymbol',
+    condElse = 'condElse',
 
     //literals
     numberLiteral = 'numberLiteral',
@@ -262,7 +268,9 @@ export const CompositeKeywordTokenTypes = [
     TokenType.exitWhile,
     TokenType.exitFor,
     TokenType.endFor,
-    TokenType.elseIf
+    TokenType.elseIf,
+    TokenType.condElseIf,
+    TokenType.condEndIf
 ];
 
 export const BasicKeywordTokenTypes = [
@@ -303,6 +311,8 @@ export const BasicKeywordTokenTypes = [
     TokenType.next,
     TokenType.not,
     TokenType.run,
+    TokenType.condIf,
+    TokenType.condElse
 ];
 
 export let KeywordTokenTypes: TokenType[] = [];
@@ -340,7 +350,9 @@ export const SymbolTokenTypes = [
     TokenType.equalSymbol,
     TokenType.lessThanSymbol,
     TokenType.greaterThanSymbol,
-    TokenType.colonSymbol
+    TokenType.colonSymbol,
+    TokenType.condIf,
+    TokenType.condElse
 ];
 
 export const MiscelaneousTokenTypes = [
@@ -388,6 +400,8 @@ SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
 SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
 SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
+SymbolTokenTypeValues[TokenType.condIf] = '#if';
+SymbolTokenTypeValues[TokenType.condElse] = '#else';
 
 export interface Match {
     tokenType: TokenType;
