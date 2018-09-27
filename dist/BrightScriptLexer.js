@@ -45,7 +45,9 @@ var BrightScriptLexer = /** @class */ (function () {
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condIf, /^(#if)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condElse, /^(#else)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condEndIf, /^(#end\s*if)(?![a-z_0-9])/i);
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
@@ -189,6 +191,7 @@ var TokenType;
     TokenType["not"] = "not";
     TokenType["run"] = "run";
     TokenType["condIf"] = "condIf";
+    TokenType["condElse"] = "condElse";
     TokenType["condElseIf"] = "condElseIf";
     TokenType["condEndIf"] = "condEndIf";
     //symbols 
@@ -223,7 +226,6 @@ var TokenType;
     TokenType["lessThanSymbol"] = "lessThanSymbol";
     TokenType["greaterThanSymbol"] = "greaterThanSymbol";
     TokenType["colonSymbol"] = "colonSymbol";
-    TokenType["condElse"] = "condElse";
     //literals
     TokenType["numberLiteral"] = "numberLiteral";
     TokenType["booleanLiteral"] = "booleanLiteral";
