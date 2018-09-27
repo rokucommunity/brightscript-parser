@@ -13,7 +13,7 @@ function matchMany(tokenType: TokenType, textItems: string[]) {
         let matchTokenType = match ? match.tokenType : undefined;
 
         let errorMessage = `Expected '${matchTokenType}' to equal '${tokenType}' for '${text}'`;
-
+        
         expect(matchTokenType, errorMessage).to.equal(tokenType);
         // (expect(match ? match.tokenType : undefined) as any).toEqualCustom([tokenType, text]);
     }
@@ -36,8 +36,16 @@ function fkeywordIt(tokenType: TokenType) {
 function keywordIt(tokenType: TokenType, exclusive = false) {
     let method = exclusive ? it.only : it;
     method(tokenType, () => {
-        matchMany(tokenType, [tokenType.toLowerCase(), tokenType.toUpperCase(), `${tokenType} `]);
-        notMatchMany(tokenType, [` ${tokenType}`, `${tokenType}WithOtherWord`, `wordThen${tokenType}`]);
+        matchMany(tokenType, [
+            tokenType.toLowerCase(),
+            tokenType.toUpperCase(),
+            tokenType
+        ]);
+        notMatchMany(tokenType, [
+            ` ${tokenType}`,
+            `${tokenType}WithOtherWord`,
+            `wordThen${tokenType}`
+        ]);
     });
 }
 function fsymbolIt(symbol: string, tokenType: TokenType) {
@@ -94,8 +102,35 @@ it('all tokens have a token definition', () => {
 describe('BrightscriptLexer', () => {
     describe('getMatch() works for --', () => {
         for (let keywordTokenType of KeywordTokenTypes) {
+            //skip the conditional compile items
+            if (keywordTokenType.startsWith('cond')) {
+                continue;
+            }
             keywordIt(keywordTokenType);
         }
+
+        function handleCondKeywords(tokenType, keywordText) {
+            it(tokenType, () => {
+                matchMany(tokenType, [
+                    keywordText.toLowerCase(),
+                    keywordText.toUpperCase(),
+                    keywordText
+                ]);
+                notMatchMany(keywordText, [
+                    ` ${keywordText}`,
+                    `${keywordText}WithOtherWord`,
+                    `wordThen${keywordText}`
+                ]);
+            });
+        }
+
+        //add the conditional items
+        handleCondKeywords('condIf', '#if');
+        handleCondKeywords('condElse', '#else');
+        handleCondKeywords('condElseIf', '#else if');
+        handleCondKeywords('condElseIf', '#elseif');
+        handleCondKeywords('condEndIf', '#endif');
+        handleCondKeywords('condEndIf', '#end if');
 
         for (let tokenType in SymbolTokenTypeValues) {
             let symbol = SymbolTokenTypeValues[tokenType];

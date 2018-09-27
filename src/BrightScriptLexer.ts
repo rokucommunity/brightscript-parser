@@ -50,7 +50,9 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condIf, /^(#if)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condElse, /^(#else)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condEndIf, /^(#end\s*if)(?![a-z_0-9])/i);
         
         //add whitespace first (because it's probably the most common)
@@ -203,6 +205,7 @@ export enum TokenType {
     not = 'not',
     run = 'run',
     condIf = 'condIf',
+    condElse = 'condElse',
     condElseIf = 'condElseIf',
     condEndIf = 'condEndIf',
 
@@ -238,7 +241,6 @@ export enum TokenType {
     lessThanSymbol = 'lessThanSymbol',
     greaterThanSymbol = 'greaterThanSymbol',
     colonSymbol = 'colonSymbol',
-    condElse = 'condElse',
 
     //literals
     numberLiteral = 'numberLiteral',
