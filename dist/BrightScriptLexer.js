@@ -45,6 +45,10 @@ var BrightScriptLexer = /** @class */ (function () {
         this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condIf, /^(#if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condElse, /^(#else)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.condEndIf, /^(#end\s*if)(?![a-z_0-9])/i);
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
         //now add keywords
@@ -186,6 +190,10 @@ var TokenType;
     TokenType["next"] = "next";
     TokenType["not"] = "not";
     TokenType["run"] = "run";
+    TokenType["condIf"] = "condIf";
+    TokenType["condElse"] = "condElse";
+    TokenType["condElseIf"] = "condElseIf";
+    TokenType["condEndIf"] = "condEndIf";
     //symbols 
     TokenType["additionAssignmentSymbol"] = "additionAssignmentSymbol";
     TokenType["subtractionAssignmentSymbol"] = "subtractionAssignmentSymbol";
@@ -243,7 +251,9 @@ exports.CompositeKeywordTokenTypes = [
     TokenType.exitWhile,
     TokenType.exitFor,
     TokenType.endFor,
-    TokenType.elseIf
+    TokenType.elseIf,
+    TokenType.condElseIf,
+    TokenType.condEndIf
 ];
 exports.BasicKeywordTokenTypes = [
     TokenType.and,
@@ -283,6 +293,8 @@ exports.BasicKeywordTokenTypes = [
     TokenType.next,
     TokenType.not,
     TokenType.run,
+    TokenType.condIf,
+    TokenType.condElse
 ];
 exports.KeywordTokenTypes = [];
 Array.prototype.push.apply(exports.KeywordTokenTypes, exports.CompositeKeywordTokenTypes);
@@ -318,7 +330,9 @@ exports.SymbolTokenTypes = [
     TokenType.equalSymbol,
     TokenType.lessThanSymbol,
     TokenType.greaterThanSymbol,
-    TokenType.colonSymbol
+    TokenType.colonSymbol,
+    TokenType.condIf,
+    TokenType.condElse
 ];
 exports.MiscelaneousTokenTypes = [
     TokenType.numberLiteral,
@@ -364,3 +378,5 @@ exports.SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
 exports.SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
 exports.SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 exports.SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
+exports.SymbolTokenTypeValues[TokenType.condIf] = '#if';
+exports.SymbolTokenTypeValues[TokenType.condElse] = '#else';

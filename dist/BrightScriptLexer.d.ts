@@ -72,6 +72,10 @@ export declare enum TokenType {
     next = "next",
     not = "not",
     run = "run",
+    condIf = "condIf",
+    condElse = "condElse",
+    condElseIf = "condElseIf",
+    condEndIf = "condEndIf",
     additionAssignmentSymbol = "additionAssignmentSymbol",
     subtractionAssignmentSymbol = "subtractionAssignmentSymbol",
     multiplicationAssignmentSymbol = "multiplicationAssignmentSymbol",
@@ -112,7 +116,7 @@ export declare enum TokenType {
     newline = "newline",
     whitespace = "whitespace",
     END_OF_FILE = "END_OF_FILE",
-    INVALID_TOKEN = "INVALID_TOKEN",
+    INVALID_TOKEN = "INVALID_TOKEN"
 }
 /**
  * composite keywords (like "endif" and "endfor")
