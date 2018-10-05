@@ -116,7 +116,7 @@ export declare enum TokenType {
     newline = "newline",
     whitespace = "whitespace",
     END_OF_FILE = "END_OF_FILE",
-    INVALID_TOKEN = "INVALID_TOKEN"
+    INVALID_TOKEN = "INVALID_TOKEN",
 }
 /**
  * composite keywords (like "endif" and "endfor")

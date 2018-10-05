@@ -13,7 +13,7 @@ function matchMany(tokenType: TokenType, textItems: string[]) {
         let matchTokenType = match ? match.tokenType : undefined;
 
         let errorMessage = `Expected '${matchTokenType}' to equal '${tokenType}' for '${text}'`;
-        
+
         expect(matchTokenType, errorMessage).to.equal(tokenType);
         // (expect(match ? match.tokenType : undefined) as any).toEqualCustom([tokenType, text]);
     }
@@ -103,7 +103,7 @@ describe('BrightscriptLexer', () => {
     describe('getMatch() works for --', () => {
         for (let keywordTokenType of KeywordTokenTypes) {
             //skip the conditional compile items
-            if (keywordTokenType.startsWith('cond')) {
+            if (keywordTokenType.indexOf('cond') === 0) {
                 continue;
             }
             keywordIt(keywordTokenType);
