@@ -244,6 +244,8 @@ export enum TokenType {
     notEqualSymbol = 'notEqualSymbol',
     lessOrEqualThanSymbol = 'lessOrEqualThanSymbol',
     greaterOrEqualThanSymbol = 'greaterOrEqualThanSymbol',
+    bitShiftLeftSymbol = 'bitShiftLeftSymbol',
+    bitShiftRightSymbol = 'bitShiftRightSymbol',
 
     //literals
     numberLiteral = 'numberLiteral',
@@ -360,7 +362,9 @@ export const SymbolTokenTypes = [
     TokenType.condElse,
     TokenType.notEqualSymbol,
     TokenType.lessOrEqualThanSymbol,
-    TokenType.greaterOrEqualThanSymbol
+    TokenType.greaterOrEqualThanSymbol,
+    TokenType.bitShiftLeftSymbol,
+    TokenType.bitShiftRightSymbol
 ];
 
 export const MiscelaneousTokenTypes = [
@@ -413,7 +417,50 @@ SymbolTokenTypeValues[TokenType.condElse] = '#else';
 SymbolTokenTypeValues[TokenType.notEqualSymbol] = '<>';
 SymbolTokenTypeValues[TokenType.lessOrEqualThanSymbol] = '<=';
 SymbolTokenTypeValues[TokenType.greaterOrEqualThanSymbol] = '>=';
+SymbolTokenTypeValues[TokenType.bitShiftLeftSymbol] = '<<';
+SymbolTokenTypeValues[TokenType.bitShiftRightSymbol] = '>>';
 
+export const NeedSpaceAfterTokenTypes = [
+    TokenType.and,
+    TokenType.eval,
+    TokenType.if,
+    TokenType.then,
+    TokenType.else,
+    TokenType.for,
+    TokenType.to,
+    TokenType.step,
+    TokenType.exit,
+    TokenType.each,
+    TokenType.while,
+    TokenType.function,
+    TokenType.sub,
+    TokenType.as,
+    TokenType.return,
+    TokenType.print,
+    TokenType.goto,
+    TokenType.dim,
+    TokenType.stop,
+    TokenType.void,
+    TokenType.number,
+    TokenType.boolean,
+    TokenType.integer,
+    TokenType.longInteger,
+    TokenType.float,
+    TokenType.double,
+    TokenType.string,
+    TokenType.object,
+    TokenType.interface,
+    TokenType.invalid,
+    TokenType.dynamic,
+    TokenType.or,
+    TokenType.let,
+    TokenType.lineNum,
+    TokenType.next,
+    TokenType.not,
+    TokenType.run,
+    TokenType.condIf,
+    TokenType.condElse
+];
 export interface Match {
     tokenType: TokenType;
     value: string;
