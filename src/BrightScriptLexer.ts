@@ -241,6 +241,9 @@ export enum TokenType {
     lessThanSymbol = 'lessThanSymbol',
     greaterThanSymbol = 'greaterThanSymbol',
     colonSymbol = 'colonSymbol',
+    notEqualSymbol = 'notEqualSymbol',
+    lessOrEqualThanSymbol = 'lessOrEqualThanSymbol',
+    greaterOrEqualThanSymbol = 'greaterOrEqualThanSymbol',
 
     //literals
     numberLiteral = 'numberLiteral',
@@ -354,7 +357,10 @@ export const SymbolTokenTypes = [
     TokenType.greaterThanSymbol,
     TokenType.colonSymbol,
     TokenType.condIf,
-    TokenType.condElse
+    TokenType.condElse,
+    TokenType.notEqualSymbol,
+    TokenType.lessOrEqualThanSymbol,
+    TokenType.greaterOrEqualThanSymbol
 ];
 
 export const MiscelaneousTokenTypes = [
@@ -404,6 +410,9 @@ SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
 SymbolTokenTypeValues[TokenType.condIf] = '#if';
 SymbolTokenTypeValues[TokenType.condElse] = '#else';
+SymbolTokenTypeValues[TokenType.notEqualSymbol] = '<>';
+SymbolTokenTypeValues[TokenType.lessOrEqualThanSymbol] = '<=';
+SymbolTokenTypeValues[TokenType.greaterOrEqualThanSymbol] = '>=';
 
 export interface Match {
     tokenType: TokenType;
