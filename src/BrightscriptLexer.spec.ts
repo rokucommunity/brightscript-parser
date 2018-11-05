@@ -103,7 +103,7 @@ describe('BrightscriptLexer', () => {
     describe('getMatch() works for --', () => {
         for (let keywordTokenType of KeywordTokenTypes) {
             //skip the conditional compile items
-            if (keywordTokenType.startsWith('cond')) {
+            if (keywordTokenType.indexOf('cond') === 0) {
                 continue;
             }
             keywordIt(keywordTokenType);
