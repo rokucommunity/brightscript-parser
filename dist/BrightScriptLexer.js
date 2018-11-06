@@ -226,6 +226,11 @@ var TokenType;
     TokenType["lessThanSymbol"] = "lessThanSymbol";
     TokenType["greaterThanSymbol"] = "greaterThanSymbol";
     TokenType["colonSymbol"] = "colonSymbol";
+    TokenType["notEqualSymbol"] = "notEqualSymbol";
+    TokenType["lessOrEqualThanSymbol"] = "lessOrEqualThanSymbol";
+    TokenType["greaterOrEqualThanSymbol"] = "greaterOrEqualThanSymbol";
+    TokenType["bitShiftLeftSymbol"] = "bitShiftLeftSymbol";
+    TokenType["bitShiftRightSymbol"] = "bitShiftRightSymbol";
     //literals
     TokenType["numberLiteral"] = "numberLiteral";
     TokenType["booleanLiteral"] = "booleanLiteral";
@@ -332,7 +337,12 @@ exports.SymbolTokenTypes = [
     TokenType.greaterThanSymbol,
     TokenType.colonSymbol,
     TokenType.condIf,
-    TokenType.condElse
+    TokenType.condElse,
+    TokenType.notEqualSymbol,
+    TokenType.lessOrEqualThanSymbol,
+    TokenType.greaterOrEqualThanSymbol,
+    TokenType.bitShiftLeftSymbol,
+    TokenType.bitShiftRightSymbol
 ];
 exports.MiscelaneousTokenTypes = [
     TokenType.numberLiteral,
@@ -375,8 +385,98 @@ exports.SymbolTokenTypeValues[TokenType.semicolonSymbol] = ';';
 exports.SymbolTokenTypeValues[TokenType.minusSymbol] = '-';
 exports.SymbolTokenTypeValues[TokenType.percentSymbol] = '%';
 exports.SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
-exports.SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
-exports.SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 exports.SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
 exports.SymbolTokenTypeValues[TokenType.condIf] = '#if';
 exports.SymbolTokenTypeValues[TokenType.condElse] = '#else';
+exports.SymbolTokenTypeValues[TokenType.notEqualSymbol] = '<>';
+exports.SymbolTokenTypeValues[TokenType.lessOrEqualThanSymbol] = '<=';
+exports.SymbolTokenTypeValues[TokenType.greaterOrEqualThanSymbol] = '>=';
+exports.SymbolTokenTypeValues[TokenType.bitShiftLeftSymbol] = '<<';
+exports.SymbolTokenTypeValues[TokenType.bitShiftRightSymbol] = '>>';
+exports.SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
+exports.SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
+exports.NeedSpaceAfterTokens = [
+    TokenType.and,
+    TokenType.eval,
+    TokenType.if,
+    TokenType.for,
+    TokenType.to,
+    TokenType.step,
+    TokenType.each,
+    TokenType.while,
+    TokenType.function,
+    TokenType.sub,
+    TokenType.as,
+    TokenType.return,
+    TokenType.print,
+    TokenType.goto,
+    TokenType.dim,
+    TokenType.or,
+    TokenType.let,
+    TokenType.next,
+    TokenType.not,
+    TokenType.condIf,
+    TokenType.elseIf,
+    TokenType.condElseIf,
+    TokenType.plusPlusSymbol,
+    TokenType.minusMinusSymbol,
+    TokenType.additionAssignmentSymbol,
+    TokenType.subtractionAssignmentSymbol,
+    TokenType.multiplicationAssignmentSymbol,
+    TokenType.divisionAssignmentSymbol,
+    TokenType.integerDivisionAssignmentSymbol,
+    TokenType.lessThanLessThanEqualSymbol,
+    TokenType.greaterThanGreaterThanEqualSymbol,
+    TokenType.asteriskSymbol,
+    TokenType.forwardSlashSymbol,
+    TokenType.backSlashSymbol,
+    TokenType.modSymbol,
+    TokenType.plusSymbol,
+    TokenType.openCurlyBraceSymbol,
+    TokenType.commaSymbol,
+    TokenType.semicolonSymbol,
+    TokenType.minusSymbol,
+    TokenType.percentSymbol,
+    TokenType.equalSymbol,
+    TokenType.lessThanSymbol,
+    TokenType.greaterThanSymbol,
+    TokenType.colonSymbol,
+    TokenType.notEqualSymbol,
+    TokenType.lessOrEqualThanSymbol,
+    TokenType.greaterOrEqualThanSymbol,
+    TokenType.bitShiftLeftSymbol,
+    TokenType.bitShiftRightSymbol
+];
+exports.NeedSpaceBeforeTokens = [
+    TokenType.and,
+    TokenType.eval,
+    TokenType.then,
+    TokenType.to,
+    TokenType.step,
+    TokenType.each,
+    TokenType.as,
+    TokenType.return,
+    TokenType.goto,
+    TokenType.dim,
+    TokenType.stop,
+    TokenType.void,
+    TokenType.number,
+    TokenType.boolean,
+    TokenType.integer,
+    TokenType.longInteger,
+    TokenType.float,
+    TokenType.double,
+    TokenType.string,
+    TokenType.object,
+    TokenType.interface,
+    TokenType.invalid,
+    TokenType.dynamic,
+    TokenType.or,
+    TokenType.let,
+    TokenType.lineNum,
+    TokenType.next,
+    TokenType.not,
+    TokenType.run,
+    TokenType.condIf,
+    TokenType.condElse
+];

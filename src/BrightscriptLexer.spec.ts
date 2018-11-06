@@ -8,7 +8,9 @@ beforeEach(() => {
 });
 
 function matchMany(tokenType: TokenType, textItems: string[]) {
+    console.log('tokenType ' + tokenType);
     for (let text of textItems) {
+        console.log('===text ' + text);
         let match = lexer.getMatch(text);
         let matchTokenType = match ? match.tokenType : undefined;
 

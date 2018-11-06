@@ -107,6 +107,11 @@ export declare enum TokenType {
     lessThanSymbol = "lessThanSymbol",
     greaterThanSymbol = "greaterThanSymbol",
     colonSymbol = "colonSymbol",
+    notEqualSymbol = "notEqualSymbol",
+    lessOrEqualThanSymbol = "lessOrEqualThanSymbol",
+    greaterOrEqualThanSymbol = "greaterOrEqualThanSymbol",
+    bitShiftLeftSymbol = "bitShiftLeftSymbol",
+    bitShiftRightSymbol = "bitShiftRightSymbol",
     numberLiteral = "numberLiteral",
     booleanLiteral = "booleanLiteral",
     stringLiteral = "stringLiteral",
@@ -116,7 +121,7 @@ export declare enum TokenType {
     newline = "newline",
     whitespace = "whitespace",
     END_OF_FILE = "END_OF_FILE",
-    INVALID_TOKEN = "INVALID_TOKEN"
+    INVALID_TOKEN = "INVALID_TOKEN",
 }
 /**
  * composite keywords (like "endif" and "endfor")
@@ -127,6 +132,8 @@ export declare let KeywordTokenTypes: TokenType[];
 export declare const SymbolTokenTypes: TokenType[];
 export declare const MiscelaneousTokenTypes: TokenType[];
 export declare const SymbolTokenTypeValues: {};
+export declare const NeedSpaceAfterTokens: TokenType[];
+export declare const NeedSpaceBeforeTokens: TokenType[];
 export interface Match {
     tokenType: TokenType;
     value: string;

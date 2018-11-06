@@ -409,8 +409,6 @@ SymbolTokenTypeValues[TokenType.semicolonSymbol] = ';';
 SymbolTokenTypeValues[TokenType.minusSymbol] = '-';
 SymbolTokenTypeValues[TokenType.percentSymbol] = '%';
 SymbolTokenTypeValues[TokenType.equalSymbol] = '=';
-SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
-SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
 SymbolTokenTypeValues[TokenType.condIf] = '#if';
 SymbolTokenTypeValues[TokenType.condElse] = '#else';
@@ -419,17 +417,16 @@ SymbolTokenTypeValues[TokenType.lessOrEqualThanSymbol] = '<=';
 SymbolTokenTypeValues[TokenType.greaterOrEqualThanSymbol] = '>=';
 SymbolTokenTypeValues[TokenType.bitShiftLeftSymbol] = '<<';
 SymbolTokenTypeValues[TokenType.bitShiftRightSymbol] = '>>';
+SymbolTokenTypeValues[TokenType.lessThanSymbol] = '<';
+SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 
-export const NeedSpaceAfterTokenTypes = [
+export const NeedSpaceAfterTokens = [
     TokenType.and,
     TokenType.eval,
     TokenType.if,
-    TokenType.then,
-    TokenType.else,
     TokenType.for,
     TokenType.to,
     TokenType.step,
-    TokenType.exit,
     TokenType.each,
     TokenType.while,
     TokenType.function,
@@ -437,6 +434,54 @@ export const NeedSpaceAfterTokenTypes = [
     TokenType.as,
     TokenType.return,
     TokenType.print,
+    TokenType.goto,
+    TokenType.dim,
+    TokenType.or,
+    TokenType.let,
+    TokenType.next,
+    TokenType.not,
+    TokenType.condIf,
+    TokenType.elseIf,
+    TokenType.condElseIf,
+    TokenType.plusPlusSymbol,
+    TokenType.minusMinusSymbol,
+    TokenType.additionAssignmentSymbol,
+    TokenType.subtractionAssignmentSymbol,
+    TokenType.multiplicationAssignmentSymbol,
+    TokenType.divisionAssignmentSymbol,
+    TokenType.integerDivisionAssignmentSymbol,
+    TokenType.lessThanLessThanEqualSymbol,
+    TokenType.greaterThanGreaterThanEqualSymbol,
+    TokenType.asteriskSymbol,
+    TokenType.forwardSlashSymbol,
+    TokenType.backSlashSymbol,
+    TokenType.modSymbol,
+    TokenType.plusSymbol,
+    TokenType.openCurlyBraceSymbol,
+    TokenType.commaSymbol,
+    TokenType.semicolonSymbol,
+    TokenType.minusSymbol,
+    TokenType.percentSymbol,
+    TokenType.equalSymbol,
+    TokenType.lessThanSymbol,
+    TokenType.greaterThanSymbol,
+    TokenType.colonSymbol,
+    TokenType.notEqualSymbol,
+    TokenType.lessOrEqualThanSymbol,
+    TokenType.greaterOrEqualThanSymbol,
+    TokenType.bitShiftLeftSymbol,
+    TokenType.bitShiftRightSymbol
+];
+
+export const NeedSpaceBeforeTokens = [
+    TokenType.and,
+    TokenType.eval,
+    TokenType.then,
+    TokenType.to,
+    TokenType.step,
+    TokenType.each,
+    TokenType.as,
+    TokenType.return,
     TokenType.goto,
     TokenType.dim,
     TokenType.stop,
@@ -461,6 +506,7 @@ export const NeedSpaceAfterTokenTypes = [
     TokenType.condIf,
     TokenType.condElse
 ];
+
 export interface Match {
     tokenType: TokenType;
     value: string;
