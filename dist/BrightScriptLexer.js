@@ -380,3 +380,4 @@ exports.SymbolTokenTypeValues[TokenType.greaterThanSymbol] = '>';
 exports.SymbolTokenTypeValues[TokenType.colonSymbol] = ':';
 exports.SymbolTokenTypeValues[TokenType.condIf] = '#if';
 exports.SymbolTokenTypeValues[TokenType.condElse] = '#else';
+//# sourceMappingURL=BrightScriptLexer.js.map

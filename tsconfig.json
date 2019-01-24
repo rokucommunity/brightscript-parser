@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": false,
+    "sourceMap": true,
     "target": "es5",
     "module": "commonjs",
     "rootDir": "src",
@@ -9,7 +10,7 @@
     "strict": true
   },
   "exclude": [
-    "src/BrightScriptLexer.spec.ts",
+    "src/**/*.spec.ts",
     "node_modules"
   ]
 }

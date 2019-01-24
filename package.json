@@ -46,14 +46,18 @@
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "coveralls": "^3.0.0",
-    "mocha": "^5.0.4",
+    "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
     "source-map-support": "^0.5.3",
-    "ts-node": "^5.0.1",
-    "tslint": "^5.9.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
     "typescript": "^2.7.2"
+  },
+  "dependencies": {
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-origin-ordered-imports-rule": "^1.1.2"
   }
 }
