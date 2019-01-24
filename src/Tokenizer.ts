@@ -11,15 +11,9 @@ export class Tokenizer {
         //any other text gets added here until another valid token is found
         let catchallToken = '';
 
-        for (let charIndex = 0; charIndex < text.length; charIndex++) {
+        outer: for (let charIndex = 0; charIndex < text.length; charIndex++) {
             let char = text[charIndex];
             let lowerChar = char.toLowerCase();
-
-            //find any symbols
-            if (Tokenizer.symbols.indexOf(char) > -1) {
-                tokens.push(char);
-                continue;
-            }
 
             //match on keywords
             {
@@ -28,7 +22,7 @@ export class Tokenizer {
                     let chars = text.substring(charIndex, charIndex + keyword.length);
                     let lowerChars = chars.toLowerCase();
                     //get the character AFTER the keyword.
-                    let nextChar = text[charIndex + keyword.length + 1];
+                    let nextChar = text[charIndex + keyword.length];
                     let lowerNextChar = nextChar ? nextChar.toLowerCase() : '';
                     //if the keyword matches exactly, and the next char is not an identifier char
                     //then this set of chars is a keyword (and not an identifier)
@@ -36,9 +30,15 @@ export class Tokenizer {
                         tokens.push(chars);
                         //move the index to the end of this text
                         charIndex = charIndex + keyword.length - 1;
-                        continue;
+                        continue outer;
                     }
                 }
+            }
+
+            //find any symbols
+            if (Tokenizer.symbols.indexOf(char) > -1) {
+                tokens.push(char);
+                continue;
             }
 
             //match on whitespace
@@ -165,7 +165,6 @@ export class Tokenizer {
         '#if',
         '#else',
         '#elseif',
-        'mod',
     ];
 
     public static symbols = [

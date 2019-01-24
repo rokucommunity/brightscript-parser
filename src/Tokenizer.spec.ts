@@ -9,7 +9,8 @@ describe.only('Tokenizer', () => {
 
     it('matches all known tokens', () => {
         let knownTokens = [
-            ...Tokenizer.identifierChars,
+            ...Tokenizer.numberChars,
+            ...Tokenizer.letterChars,
             ...Tokenizer.keywords,
             ...Tokenizer.symbols
         ];
@@ -29,4 +30,8 @@ describe.only('Tokenizer', () => {
         }
     });
 
+    it('handles weirness with the "run" keyword case', () => {
+        let tokens = tokenizer.tokenize('run');
+        expect(tokens).to.eql(['run']);
+    });
 });

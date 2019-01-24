@@ -10,14 +10,9 @@ var Tokenizer = /** @class */ (function () {
         var tokens = [];
         //any other text gets added here until another valid token is found
         var catchallToken = '';
-        for (var charIndex = 0; charIndex < text.length; charIndex++) {
+        outer: for (var charIndex = 0; charIndex < text.length; charIndex++) {
             var char = text[charIndex];
             var lowerChar = char.toLowerCase();
-            //find any symbols
-            if (Tokenizer.symbols.indexOf(char) > -1) {
-                tokens.push(char);
-                continue;
-            }
             //match on keywords
             {
                 for (var _i = 0, _a = Tokenizer.keywords; _i < _a.length; _i++) {
@@ -26,7 +21,7 @@ var Tokenizer = /** @class */ (function () {
                     var chars = text.substring(charIndex, charIndex + keyword.length);
                     var lowerChars = chars.toLowerCase();
                     //get the character AFTER the keyword.
-                    var nextChar = text[charIndex + keyword.length + 1];
+                    var nextChar = text[charIndex + keyword.length];
                     var lowerNextChar = nextChar ? nextChar.toLowerCase() : '';
                     //if the keyword matches exactly, and the next char is not an identifier char
                     //then this set of chars is a keyword (and not an identifier)
@@ -34,9 +29,14 @@ var Tokenizer = /** @class */ (function () {
                         tokens.push(chars);
                         //move the index to the end of this text
                         charIndex = charIndex + keyword.length - 1;
-                        continue;
+                        continue outer;
                     }
                 }
+            }
+            //find any symbols
+            if (Tokenizer.symbols.indexOf(char) > -1) {
+                tokens.push(char);
+                continue;
             }
             //match on whitespace
             {
@@ -162,7 +162,6 @@ var Tokenizer = /** @class */ (function () {
         '#if',
         '#else',
         '#elseif',
-        'mod',
     ];
     Tokenizer.symbols = [
         '+',
