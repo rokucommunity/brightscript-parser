@@ -8,12 +8,42 @@ export class Tokenizer {
 
     public tokenize(text: string) {
         let tokens = [] as string[];
-        //any other text gets added here until another valid token is found
-        let catchallToken = '';
+        //the index of the last catchall token we added
+        let catchallTokenIndex = -1;
 
         outer: for (let charIndex = 0; charIndex < text.length; charIndex++) {
             let char = text[charIndex];
-            let lowerChar = char.toLowerCase();
+
+            //match on newlines
+            {
+                if (char === '\n') {
+                    tokens.push(char);
+                    continue;
+                } else if (char === '\r' && text[charIndex + 1] === '\n') {
+                    tokens.push('\r\n');
+                    charIndex++;
+                    continue;
+                }
+            }
+
+            //match on whitespace
+            {
+                let whitespaceToken = '';
+                inner: for (let idx = charIndex; idx < text.length; idx++) {
+                    let innerChar = text[idx];
+                    //only keep spaces and tabs
+                    if (innerChar === ' ' || innerChar === '\t') {
+                        whitespaceToken += innerChar;
+                    } else {
+                        break inner;
+                    }
+                }
+                if (whitespaceToken.length > 0) {
+                    tokens.push(whitespaceToken);
+                    charIndex = charIndex + whitespaceToken.length - 1;
+                    continue;
+                }
+            }
 
             //match on keywords
             {
@@ -41,35 +71,16 @@ export class Tokenizer {
                 continue;
             }
 
-            //match on whitespace
-            {
-                let whitespaceToken = '';
-                inner: for (let idx = charIndex; idx < text.length; idx++) {
-                    let innerChar = text[idx];
-                    let whitespaceChar = text[idx];
-                    //only keep spaces and tabs
-                    if (innerChar === ' ' || innerChar === '\t') {
-                        whitespaceToken += innerChar;
-                    } else {
-                        break inner;
-                    }
-                }
-                if (whitespaceToken.length > 0) {
-                    tokens.push(whitespaceToken);
-                    charIndex = charIndex + whitespaceToken.length - 1;
-                    continue;
-                }
-            }
-
             //match identifiers
             {
+                let lowerChar = char.toLowerCase();
                 //identifiers must start with a letter
-                if (Tokenizer.letterChars.indexOf(lowerChar) > -1) {
+                if (Tokenizer.identifierChars.indexOf(lowerChar) > -1) {
                     let identifierToken = char;
                     inner: for (let idx = charIndex + 1; idx < text.length; idx++) {
                         let innerChar = text[idx];
                         let innerCharLower = innerChar.toLowerCase();
-                        if (Tokenizer.identifierChars.indexOf(innerChar) > -1) {
+                        if (Tokenizer.identifierChars.indexOf(innerCharLower) > -1) {
                             identifierToken += innerChar;
                         } else {
                             break inner;
@@ -83,7 +94,7 @@ export class Tokenizer {
 
             //match numbers on their own
             {
-                if (Tokenizer.numberChars.indexOf(lowerChar) > -1) {
+                if (Tokenizer.numberChars.indexOf(char) > -1) {
                     let numberToken = char;
                     inner: for (let idx = charIndex + 1; idx < text.length; idx++) {
                         let innerChar = text[idx];
@@ -99,17 +110,38 @@ export class Tokenizer {
                 }
             }
 
+            //match comments
+            if (char === `'`) {
+                let commentToken = char;
+                //take all tokens until a newline or EOF
+                inner: for (let idx = charIndex + 1; idx < text.length; idx++) {
+                    let innerChar = text[idx];
+                    if (innerChar === '\n') {
+                        commentToken += '\n';
+                        break inner;
+                    } else if (innerChar === '\r' && text[idx + 1] === '\n') {
+                        commentToken += '\r\n';
+                        break inner;
+                    } else {
+                        commentToken += text[idx];
+                    }
+                }
+                //hit newline or end of file
+                tokens.push(commentToken);
+                charIndex = charIndex + commentToken.length - 1;
+                continue;
+            }
+
             //handle unknown characters
             {
                 //create a new catchall token and add it as a token
-                if (!catchallToken) {
-                    catchallToken = char;
-                    tokens.push(catchallToken);
+                let latestTokenIndex = tokens.length - 1;
+                if (catchallTokenIndex === -1 || catchallTokenIndex !== latestTokenIndex) {
+                    catchallTokenIndex = tokens.length;
+                    tokens.push(char);
                 } else {
-                    //we have a running catchall token, append this to it
-                    catchallToken += char;
-                    //the last token in the list is the catchall token, append to it
-                    tokens[tokens.length - 1] = catchallToken;
+                    //the last token we added was a catchall token. append this char to it also
+                    tokens[catchallTokenIndex] += char;
                 }
             }
         }
@@ -162,11 +194,13 @@ export class Tokenizer {
         'next',
         'not',
         'run',
+        'library',
         '#if',
         '#else',
         '#elseif',
     ];
 
+    //all symbols except for single quote (because it is processed independently)
     public static symbols = [
         '+',
         '-',
