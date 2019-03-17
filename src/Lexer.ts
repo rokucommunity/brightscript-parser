@@ -264,29 +264,32 @@ export class Lexer {
 
             //match numeric literals
             {
-                let numberToken = word;
-                let letterCount = 0;
-                for (let i = 0; i < word.length; i++) {
-                    let char = word[i];
-                    if (Lexer.identifierFirstCharacterChars.indexOf(char) > -1) {
-                        letterCount++;
+                //if the first char of this word starts with a number
+                if (Lexer.numberChars.indexOf(word[0]) > -1) {
+                    let numberToken = word;
+                    let letterCount = 0;
+                    for (let i = 0; i < word.length; i++) {
+                        let char = word[i];
+                        if (Lexer.identifierFirstCharacterChars.indexOf(char) > -1) {
+                            letterCount++;
+                        }
                     }
-                }
-                if (letterCount === 0) {
-                    //integer literals may end with a type designator, so include that token if present
-                    if (Lexer.numericTypeDesignators.indexOf(nextWord) > -1) {
-                        numberToken += nextWord;
-                    }
+                    if (letterCount === 0) {
+                        //integer literals may end with a type designator, so include that token if present
+                        if (Lexer.numericTypeDesignators.indexOf(nextWord) > -1) {
+                            numberToken += nextWord;
+                        }
 
-                    tokens.push({
-                        value: numberToken,
-                        tokenType: TokenType.numberLiteral,
-                        line: lineIndex,
-                        column: charIndex - lineBeginCharIndex,
-                        offset: charIndex
-                    });
-                    charIndex = charIndex + numberToken.length - 1;
-                    continue;
+                        tokens.push({
+                            value: numberToken,
+                            tokenType: TokenType.numberLiteral,
+                            line: lineIndex,
+                            column: charIndex - lineBeginCharIndex,
+                            offset: charIndex
+                        });
+                        charIndex = charIndex + numberToken.length - 1;
+                        continue;
+                    }
                 }
             }
 

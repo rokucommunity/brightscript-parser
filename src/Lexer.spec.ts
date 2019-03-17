@@ -117,6 +117,16 @@ describe('Lexer', () => {
         });
     });
 
+    it('captures invalid tokens', () => {
+        expect(lexer.tokenize(`é`)).to.eql([{
+            column: 0,
+            line: 0,
+            offset: 0,
+            tokenType: TokenType.INVALID_TOKEN,
+            value: 'é'
+        }] as Token2[]);
+    });
+
     describe('strings', () => {
         it('supports escaped quotemarks', () => {
             expect(getTokenValues('"string with "" quotes in it"')).to.eql(['"string with "" quotes in it"']);
