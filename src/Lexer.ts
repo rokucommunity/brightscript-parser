@@ -188,6 +188,44 @@ export class Lexer {
                 }
             }
 
+            //match on strings
+            {
+                if (word === '"') {
+                    let stringToken = word;
+                    //eat tokens until we reach the end of the string, or the end of the line
+                    stringLoop: for (let idx = charIndex + 1; idx < text.length; idx++) {
+                        let thisChar = text[idx];
+                        let nextChar = text[idx + 1];
+                        if (thisChar === '"') {
+                            //escaped string character
+                            if (nextChar === '"') {
+                                stringToken += '""';
+                                idx++;
+                            } else {
+                                //string was terminated
+                                stringToken += thisChar;
+                                break stringLoop;
+                            }
+                            //encountered the end of a line. Strings can't be multi-line, so terminate here
+                            //and let the parser handle this string as an error later on
+                        } else if (thisChar === '\n' || (thisChar === '\r' && nextChar === '\n')) {
+                            break stringLoop;
+                        } else {
+                            stringToken += thisChar;
+                        }
+                    }
+                    tokens.push({
+                        column: charIndex - lineBeginCharIndex,
+                        line: lineIndex,
+                        offset: charIndex,
+                        tokenType: TokenType.stringLiteral,
+                        value: stringToken
+                    });
+                    charIndex = charIndex + stringToken.length - 1;
+                    continue;
+                }
+            }
+
             //find any symbols
             if (Lexer.symbolKeys.indexOf(word) > -1) {
                 tokens.push({

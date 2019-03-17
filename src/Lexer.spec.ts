@@ -16,6 +16,8 @@ describe('Lexer', () => {
             ...Lexer.keywordKeys,
             ...Lexer.symbolKeys
         ];
+        //remove the quote symbol
+        knownTokens.splice(knownTokens.indexOf('"'), 1);
 
         let knownTokensWithSpaces = [] as string[];
         for (let i = 0; i < knownTokens.length; i++) {
@@ -42,10 +44,10 @@ describe('Lexer', () => {
         expect(getTokenValues('var123')).to.eql(['var123']);
         expect(getTokenValues('camelCaseVar')).to.eql(['camelCaseVar']);
         // //identifiers with type designator chars at the end
-        // expect(lexer.tokenize('boy$')[0]).to.deep.include({ value: 'boy$', tokenType: TokenType.identifier });
-        // expect(lexer.tokenize('boy%')[0]).to.deep.include({ value: 'boy%', tokenType: TokenType.identifier });
-        // expect(lexer.tokenize('boy!')[0]).to.deep.include({ value: 'boy!', tokenType: TokenType.identifier });
-        // expect(lexer.tokenize('boy#')[0]).to.deep.include({ value: 'boy#', tokenType: TokenType.identifier });
+        expect(lexer.tokenize('boy$')[0]).to.deep.include({ value: 'boy$', tokenType: TokenType.identifier });
+        expect(lexer.tokenize('boy%')[0]).to.deep.include({ value: 'boy%', tokenType: TokenType.identifier });
+        expect(lexer.tokenize('boy!')[0]).to.deep.include({ value: 'boy!', tokenType: TokenType.identifier });
+        expect(lexer.tokenize('boy#')[0]).to.deep.include({ value: 'boy#', tokenType: TokenType.identifier });
     });
 
     it('handles misc. cases', () => {
@@ -70,9 +72,10 @@ describe('Lexer', () => {
         expect(getTokenValues('\r\né')).to.eql(['\r\n', 'é']);
     });
 
-    it('captures numeric literals', () => {
+    it('captures integer literals', () => {
         expect(getTokenValues('0 1 2 3 4 5 6 7 8 9').filter(x => x !== ' ')).to.eql(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
         expect(lexer.tokenize('123')[0].tokenType).to.eql(TokenType.numberLiteral);
+        expect(getTokenValues('1% 1! 1#').filter(x => x !== ' ')).to.eql(['1%', '1!', '1#']);
     });
 
     it('splits composite keywords into separate tokens', () => {
@@ -111,6 +114,12 @@ describe('Lexer', () => {
                 column: 9,
                 tokenType: TokenType.identifier
             }] as Token2[]);
+        });
+    });
+
+    describe('strings', () => {
+        it('supports escaped quotemarks', () => {
+            expect(getTokenValues('"string with "" quotes in it"')).to.eql(['"string with "" quotes in it"']);
         });
     });
 
