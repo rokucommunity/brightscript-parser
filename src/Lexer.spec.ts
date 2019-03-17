@@ -121,6 +121,10 @@ describe('Lexer', () => {
         it('supports escaped quotemarks', () => {
             expect(getTokenValues('"string with "" quotes in it"')).to.eql(['"string with "" quotes in it"']);
         });
+        it('terminates at end of line when missing closing quote', () => {
+            expect(getTokenValues('"some text\n')).to.eql(['"some text', '\n']);
+            expect(getTokenValues('"some text\r\n')).to.eql(['"some text', '\r\n']);
+        });
     });
 
     describe('offset', () => {
