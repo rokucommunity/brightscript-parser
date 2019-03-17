@@ -52,8 +52,10 @@ describe('Lexer', () => {
         expect(getTokenValues('var_1 = 123')).to.eql(['var_1', ' ', '=', ' ', '123']);
     });
 
-    it('handles comments as single token', () => {
+    it('handles comments', () => {
         expect(getTokenValues(`didSomething=true'this is a comment`)).to.eql(['didSomething', '=', 'true', `'this is a comment`]);
+        //stops the comment at a newline
+        expect(getTokenValues(`'someComment\r\n`)).to.eql([`'someComment`, '\r\n']);
     });
 
     it('captures whitespace', () => {

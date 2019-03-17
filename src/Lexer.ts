@@ -206,11 +206,7 @@ export class Lexer {
                 //take all tokens until a newline or EOF
                 inner: for (let idx = charIndex + 1; idx < text.length; idx++) {
                     let innerChar = text[idx];
-                    if (innerChar === '\n') {
-                        commentToken += '\n';
-                        break inner;
-                    } else if (innerChar === '\r' && text[idx + 1] === '\n') {
-                        commentToken += '\r\n';
+                    if (innerChar === '\n' || innerChar === '\r') {
                         break inner;
                     } else {
                         commentToken += text[idx];
