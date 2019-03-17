@@ -7,7 +7,7 @@ export class BrightScriptLexer {
 
     public addTokenDefinition(tokenType: TokenType, regexp: RegExp) {
         this.tokenDefinitions.push({ tokenType, regexp });
-     }
+    }
 
     /**
      * Add a symbol token definition with the standard regexp for symbols
@@ -54,9 +54,10 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condElse, /^(#else)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condEndIf, /^(#end\s*if)(?![a-z_0-9])/i);
-        
+
         //add whitespace first (because it's probably the most common)
-        this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
+        this.addTokenDefinition(TokenType.spaces, /^([ ]+)/);
+        this.addTokenDefinition(TokenType.tabs, /^([\t]+)/);
 
         //now add keywords
         this.addKeywordTokenDefinitions(BasicKeywordTokenTypes);
@@ -127,7 +128,7 @@ export class BrightScriptLexer {
         for (let i = tokens.length - 1; i >= 0; i--) {
             let token = tokens[i];
             //eat any whitespace characters
-            if (token.tokenType === TokenType.whitespace) {
+            if (token.tokenType === TokenType.spaces || token.tokenType === TokenType.tabs) {
                 continue;
             }
             if (token.tokenType === TokenType.periodSymbol) {
@@ -204,6 +205,7 @@ export enum TokenType {
     next = 'next',
     not = 'not',
     run = 'run',
+    library = 'library',
     condIf = 'condIf',
     condElse = 'condElse',
     condElseIf = 'condElseIf',
@@ -219,7 +221,7 @@ export enum TokenType {
     greaterThanGreaterThanEqualSymbol = 'greaterThanGreaterThanEqualSymbol',
     plusPlusSymbol = 'plusPlusSymbol',
     minusMinusSymbol = 'minusMinusSymbol',
-    asteriskSymbol = 'asteriskSymbol',
+    starSymbol = 'starSymbol',
     forwardSlashSymbol = 'forwardSlashSymbol',
     backSlashSymbol = 'backSlashSymbol',
     modSymbol = 'modSymbol',
@@ -252,7 +254,8 @@ export enum TokenType {
     quoteComment = 'quoteComment',
     remComment = 'remComment',
     newline = 'newline',
-    whitespace = 'whitespace',
+    spaces = 'spaces',
+    tabs = 'tabs',
 
     //lexer specific
     END_OF_FILE = 'END_OF_FILE',
@@ -314,7 +317,8 @@ export const BasicKeywordTokenTypes = [
     TokenType.not,
     TokenType.run,
     TokenType.condIf,
-    TokenType.condElse
+    TokenType.condElse,
+    TokenType.library
 ];
 
 export let KeywordTokenTypes: TokenType[] = [];
@@ -332,12 +336,12 @@ export const SymbolTokenTypes = [
     TokenType.plusPlusSymbol,
     TokenType.minusMinusSymbol,
     TokenType.carotSymbol,
-    TokenType.asteriskSymbol,
-    TokenType.forwardSlashSymbol,
-    TokenType.backSlashSymbol,
     TokenType.modSymbol,
     TokenType.plusSymbol,
     TokenType.minusSymbol,
+    TokenType.starSymbol,
+    TokenType.forwardSlashSymbol,
+    TokenType.backSlashSymbol,
     TokenType.doubleQuoteSymbol,
     TokenType.openParenSymbol,
     TokenType.closeParenSymbol,
@@ -365,7 +369,8 @@ export const MiscelaneousTokenTypes = [
     TokenType.quoteComment,
     TokenType.remComment,
     TokenType.newline,
-    TokenType.whitespace,
+    TokenType.spaces,
+    TokenType.tabs,
     TokenType.END_OF_FILE,
     TokenType.INVALID_TOKEN
 ];
@@ -380,7 +385,7 @@ SymbolTokenTypeValues[TokenType.divisionAssignmentSymbol] = '/=';
 SymbolTokenTypeValues[TokenType.integerDivisionAssignmentSymbol] = '\\=';
 SymbolTokenTypeValues[TokenType.lessThanLessThanEqualSymbol] = '<<=';
 SymbolTokenTypeValues[TokenType.greaterThanGreaterThanEqualSymbol] = '>>=';
-SymbolTokenTypeValues[TokenType.asteriskSymbol] = '*';
+SymbolTokenTypeValues[TokenType.starSymbol] = '*';
 SymbolTokenTypeValues[TokenType.forwardSlashSymbol] = '/';
 SymbolTokenTypeValues[TokenType.backSlashSymbol] = '\\';
 SymbolTokenTypeValues[TokenType.modSymbol] = 'MOD';

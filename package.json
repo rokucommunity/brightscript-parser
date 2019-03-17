@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "rimraf dist && tsc",
     "prepublishOnly": "npm run compile",
-    "test": "nyc mocha src/**/*.spec.ts --full-trace --bail",
+    "test": "nyc mocha src/**/*.spec.ts --full-trace",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -45,19 +45,23 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
+    "@types/fs-extra": "^5.0.5",
     "@types/mocha": "^2.2.48",
+    "benchmark": "^2.1.4",
     "chai": "^4.2.0",
     "coveralls": "^3.0.0",
+    "glob-all": "^3.1.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "rimraf": "^2.6.2",
     "source-map-support": "^0.5.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-origin-ordered-imports-rule": "^1.1.2",
     "typescript": "^2.7.2"
   },
   "dependencies": {
-    "tslint-eslint-rules": "^5.4.0",
-    "tslint-origin-ordered-imports-rule": "^1.1.2"
+    "fs-extra": "^7.0.1"
   }
 }

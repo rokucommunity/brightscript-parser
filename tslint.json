@@ -9,6 +9,7 @@
         "quotemark": {
             "options": "single"
         },
+        "arrow-parens": false,
         "max-line-length": false,
         "no-trailing-whitespace": false,
         "no-console": false,
@@ -17,6 +18,7 @@
         "comment-format": false,
         "prefer-const": false,
         "object-literal-sort-keys": false,
+        "object-literal-key-quotes": false,
         "trailing-comma": false,
         "forin": false,
         "no-empty": false,

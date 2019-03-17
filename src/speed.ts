@@ -1,31 +1,24 @@
 import { BrightScriptLexer as OriginalLexer } from './BrightScriptLexer';
-import { Tokenizer } from './Tokenizer';
+import { Lexer } from './Lexer';
+import * as fs from 'fs-extra';
+let program = fs.readFileSync('testFiles/Collisions.brs').toString()
 
-let iterations = 100000;
-let program =
-    `function Main()
-    name = "John Doe"
-    age = 12
-    shoeSize = 7.5
-    isAlive = true
-end function
-`;
+let iterationCount = 3000;
 
-let start = Date.now();
-
-// let lexer = new OriginalLexer();
-// for (let i = 0; i < iterations; i++) {
-//     lexer.tokenize(program);
-// }
-
-let tokenizer = new Tokenizer();
-for (let i = 0; i < iterations; i++) {
-    tokenizer.tokenize(program);
+function doTest(name: string, callback: () => void) {
+    let start = Date.now();
+    for (let i = 0; i < iterationCount; i++) {
+        callback();
+    }
+    let stop = Date.now();
+    console.log(`${name}: ${(stop - start) / iterationCount}ms`);
 }
-let totalTime = Date.now() - start;
-let timePerOp = totalTime / iterations;
-console.log(`
-Original:
-    ${timePerOp}ms average
-    ${totalTime}ms total`
-);
+let lexer = new OriginalLexer();
+doTest('original', () => {
+    lexer.tokenize(program);
+});
+
+let tokenizer = new Lexer();
+doTest('tokenizer', () => {
+    tokenizer.tokenize(program);
+});
