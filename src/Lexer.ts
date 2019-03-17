@@ -168,7 +168,7 @@ export class Lexer {
                 if (Lexer.compositeKeywordKeys.indexOf(lowerWord) > -1) {
                     let secondPartIndex = Lexer.compositeKeywords[lowerWord];
                     let firstPart = word.substring(0, secondPartIndex);
-                    let secondPart = word.substring(0, secondPartIndex);
+                    let secondPart = word.substring(secondPartIndex);
                     tokens.push({
                         value: firstPart,
                         tokenType: Lexer.keywords[firstPart.toLowerCase()],
@@ -183,6 +183,8 @@ export class Lexer {
                         column: (charIndex + firstPart.length) - lineBeginCharIndex,
                         offset: charIndex + firstPart.length
                     });
+                    charIndex = charIndex + word.length - 1;
+                    continue;
                 }
             }
 

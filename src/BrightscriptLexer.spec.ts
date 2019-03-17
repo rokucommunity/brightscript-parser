@@ -158,8 +158,8 @@ describe('BrightscriptLexer', () => {
         });
 
         it('whitespace', () => {
-            matchMany(TokenType.whitespace, [' ', '\t', '   ', '\t ', '     ', ' \t ']);
-            notMatchMany(TokenType.whitespace, ['\n', 'a ', '\r', '\r\n', '\n\r']);
+            matchMany(TokenType.spaces, [' ', '   ', '     ']);
+            matchMany(TokenType.tabs, ['\t', '\t\t', '\t\t\t']);
         });
 
         it('newline', () => {
@@ -204,17 +204,17 @@ describe('BrightscriptLexer', () => {
             }
             expect(types).to.deep.equal([
                 TokenType.sub,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.identifier,
                 TokenType.openParenSymbol,
                 TokenType.closeParenSymbol,
                 TokenType.newline,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.identifier,
                 TokenType.openParenSymbol,
                 TokenType.closeParenSymbol,
                 TokenType.newline,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.endSub,
                 TokenType.END_OF_FILE
             ]);
@@ -234,24 +234,24 @@ describe('BrightscriptLexer', () => {
             }
             expect(types).to.deep.equal([
                 TokenType.newline,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.sub,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.identifier,
                 TokenType.openParenSymbol,
                 TokenType.closeParenSymbol,
                 TokenType.newline,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.identifier,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.equalSymbol,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.numberLiteral,
                 TokenType.newline,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.endSub,
                 TokenType.newline,
-                TokenType.whitespace,
+                TokenType.spaces,
                 TokenType.END_OF_FILE
             ]);
         });
@@ -267,9 +267,9 @@ describe('BrightscriptLexer', () => {
             it('works with concatenation', () => {
                 expect(getTypes(lexer.tokenize(`"foo" + "bar"`))).to.deep.equal([
                     TokenType.stringLiteral,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.plusSymbol,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.stringLiteral,
                     TokenType.END_OF_FILE
                 ]);
@@ -293,14 +293,14 @@ describe('BrightscriptLexer', () => {
                 expect(stringify(tokens)).to.deep.equal(program);
                 expect(getTypes(tokens)).to.deep.equal([
                     TokenType.elseIf,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
                     TokenType.openParenSymbol,
                     TokenType.identifier,
                     TokenType.closeParenSymbol,
                     TokenType.equalSymbol,
                     TokenType.stringLiteral,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.then,
                     TokenType.END_OF_FILE
                 ]);
@@ -312,20 +312,20 @@ describe('BrightscriptLexer', () => {
                 expect(stringify(tokens)).to.deep.equal(program);
                 expect(getTypes(tokens)).to.deep.equal([
                     TokenType.function,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
                     TokenType.openParenSymbol,
                     TokenType.closeParenSymbol,
                     TokenType.newline,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.equalSymbol,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.stringLiteral,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.plusSymbol,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
                     TokenType.openParenSymbol,
                     TokenType.identifier,
@@ -348,34 +348,34 @@ describe('BrightscriptLexer', () => {
                 expect(stringify(tokens)).to.deep.equal(program);
                 expect(getTypes(tokens)).to.deep.equal([
                     TokenType.if,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.booleanLiteral,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.then,
                     TokenType.newline,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
                     TokenType.openParenSymbol,
                     TokenType.closeParenSymbol,
                     TokenType.newline,
                     TokenType.else,
                     TokenType.newline,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.if,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.booleanLiteral,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.then,
                     TokenType.newline,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
                     TokenType.openParenSymbol,
                     TokenType.closeParenSymbol,
                     TokenType.newline,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.endIf,
                     TokenType.newline,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.endIf,
                     TokenType.END_OF_FILE
                 ]);
@@ -390,9 +390,9 @@ describe('BrightscriptLexer', () => {
                     TokenType.identifier,
                     TokenType.periodSymbol,
                     TokenType.identifier,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.equalSymbol,
-                    TokenType.whitespace,
+                    TokenType.spaces,
                     TokenType.identifier,
                     TokenType.periodSymbol,
                     TokenType.identifier,
