@@ -1,33 +1,31 @@
 import { BrightScriptLexer, KeywordTokenTypes, MiscelaneousTokenTypes, SymbolTokenTypes, SymbolTokenTypeValues, Token, TokenType } from './BrightScriptLexer';
 import { expect } from 'chai';
+import { Lexer, Token2 } from './Lexer';
 
-let lexer: BrightScriptLexer;
+let lexer: Lexer;
 
 beforeEach(() => {
-    lexer = new BrightScriptLexer();
+    lexer = new Lexer();
 });
 
 function matchMany(tokenType: TokenType, textItems: string[]) {
     for (let text of textItems) {
-        let match = lexer.getMatch(text);
-        let matchTokenType = match ? match.tokenType : undefined;
+        let tokens = lexer.tokenize(text);
+        let actualTokenType = tokens.length > 0 ? tokens[0].tokenType : undefined;
 
-        let errorMessage = `Expected '${matchTokenType}' to equal '${tokenType}' for '${text}'`;
+        let errorMessage = `Expected '${actualTokenType}' to equal '${tokenType}' for '${text}'`;
 
-        expect(matchTokenType, errorMessage).to.equal(tokenType);
-        // (expect(match ? match.tokenType : undefined) as any).toEqualCustom([tokenType, text]);
+        expect(actualTokenType, errorMessage).to.equal(tokenType);
     }
 }
 function notMatchMany(tokenType: TokenType, textItems: string[]) {
     for (let text of textItems) {
-        let match = lexer.getMatch(text);
-        let matchTokenType = match ? match.tokenType : undefined;
+        let tokens = lexer.tokenize(text);
+        let actualTokenType = tokens.length > 0 ? tokens[0].tokenType : undefined;
 
-        let errorMessage = `Expected '${matchTokenType}' NOT to equal '${tokenType}' for '${text}'`;
+        let errorMessage = `Expected '${actualTokenType}' NOT to equal '${tokenType}' for '${text}'`;
 
-        expect(matchTokenType, errorMessage).not.to.equal(tokenType);
-
-        //    (expect(match ? match.tokenType : undefined) as any).not.toEqualCustom([tokenType, text]);
+        expect(actualTokenType, errorMessage).not.to.equal(tokenType);
     }
 }
 function fkeywordIt(tokenType: TokenType) {
@@ -407,7 +405,7 @@ describe('BrightscriptLexer', () => {
     });
 });
 
-function getTypes(tokens: Token[]) {
+function getTypes(tokens: Array<Token | Token2>) {
     let types: TokenType[] = [];
     for (let token of tokens) {
         types.push(token.tokenType);
@@ -415,7 +413,7 @@ function getTypes(tokens: Token[]) {
     return types;
 }
 
-function stringify(tokens: Token[]) {
+function stringify(tokens: Array<Token | Token2>) {
     let result = '';
     for (let token of tokens) {
         result += token.value ? token.value : '';

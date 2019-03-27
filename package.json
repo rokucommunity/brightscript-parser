@@ -61,6 +61,7 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
+    "brs": "^0.13.0-rc.3",
     "fs-extra": "^7.0.1"
   }
 }
