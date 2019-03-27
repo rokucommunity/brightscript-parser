@@ -407,6 +407,12 @@ describe('BrightscriptLexer', () => {
     });
 });
 
+it('combines symbols for comparisons', () => {
+    expect(tokenize('<>')[0]).to.equal(TokenType.notEqual);
+    expect(tokenize('<=')[0]).to.equal(TokenType.lessThanOrEqual);
+    expect(tokenize('>=')[0]).to.equal(TokenType.greaterThanOrEqual);
+});
+
 function getTypes(tokens: Token[]) {
     let types: TokenType[] = [];
     for (let token of tokens) {

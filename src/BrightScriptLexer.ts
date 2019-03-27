@@ -7,7 +7,7 @@ export class BrightScriptLexer {
 
     public addTokenDefinition(tokenType: TokenType, regexp: RegExp) {
         this.tokenDefinitions.push({ tokenType, regexp });
-     }
+    }
 
     /**
      * Add a symbol token definition with the standard regexp for symbols
@@ -54,7 +54,7 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condElse, /^(#else)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condEndIf, /^(#end\s*if)(?![a-z_0-9])/i);
-        
+
         //add whitespace first (because it's probably the most common)
         this.addTokenDefinition(TokenType.whitespace, /^([\t ]+)/);
 
@@ -65,6 +65,11 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.stringLiteral, /^("([^"]|"")*")/);
         this.addTokenDefinition(TokenType.numberLiteral, /^(\d)/);
+
+        //grouped symbols
+        this.addTokenDefinition(TokenType.notEqual, /^\<\>/);
+        this.addTokenDefinition(TokenType.lessThanOrEqual, /^\<=/);
+        this.addTokenDefinition(TokenType.greaterThanOrEqual, /^\>=/);
 
         //now add all symbols
         for (let tokenType in SymbolTokenTypeValues) {
@@ -253,6 +258,9 @@ export enum TokenType {
     remComment = 'remComment',
     newline = 'newline',
     whitespace = 'whitespace',
+    lessThanOrEqual = 'lessThanOrEqual',
+    greaterThanOrEqual = 'greaterThanOrEqual',
+    notEqual = 'notEqual',
 
     //lexer specific
     END_OF_FILE = 'END_OF_FILE',
@@ -366,6 +374,9 @@ export const MiscelaneousTokenTypes = [
     TokenType.remComment,
     TokenType.newline,
     TokenType.whitespace,
+    TokenType.lessThanOrEqual,
+    TokenType.greaterThanOrEqual,
+    TokenType.notEqual,
     TokenType.END_OF_FILE,
     TokenType.INVALID_TOKEN
 ];
