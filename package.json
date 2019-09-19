@@ -6,6 +6,7 @@
   "types": "dist/BrightScriptLexer.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
+    "preversion": "npm run build && npm run lint && npm run test",
     "prepublishOnly": "npm run build && npm run test && npm run lint",
     "test": "nyc mocha src/**/*.spec.ts --full-trace --bail",
     "lint": "tslint --project ./tsconfig.json",
