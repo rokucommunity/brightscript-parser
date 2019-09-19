@@ -5,10 +5,11 @@
   "main": "dist/BrightScriptLexer.js",
   "types": "dist/BrightScriptLexer.d.ts",
   "scripts": {
-    "compile": "rimraf dist && tsc",
-    "prepublishOnly": "npm run compile",
+    "build": "rimraf dist && tsc",
+    "prepublishOnly": "npm run build && npm run test && npm run lint",
     "test": "nyc mocha src/**/*.spec.ts --full-trace --bail",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "lint": "tslint --project ./tsconfig.json",
+    "report-coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
