@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TwitchBronBron/brightscript-parser.git"
+    "url": "git+https://github.com/RokuCommunity/brightscript-parser.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TwitchBronBron/brightscript-parser/issues"
+    "url": "https://github.com/RokuCommunity/brightscript-parser/issues"
   },
-  "homepage": "https://github.com/TwitchBronBron/brightscript-parser#readme",
+  "homepage": "https://github.com/RokuCommunity/brightscript-parser#readme",
   "nyc": {
     "include": [
       "src/**/!(*.spec).ts"
