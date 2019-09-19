@@ -42,13 +42,13 @@ export class BrightScriptLexer {
         this.addTokenDefinition(TokenType.newline, /^(\r\n|\n\r|\r|\n)/);
 
         //add composite keywords (like "end if" and "endiff")
-        this.addTokenDefinition(TokenType.endFunction, /^(end\s*function)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.endIf, /^(end\s*if)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.endSub, /^(end\s*sub)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.endWhile, /^(end\s*while)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.exitWhile, /^(exit\s*while)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.exitFor, /^(exit\s*for)(?![a-z_0-9])/i);
-        this.addTokenDefinition(TokenType.endFor, /^(end\s*for)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endFunction, /^(end[ \t]*function)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endIf, /^(end[ \t]*if)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endSub, /^(end[ \t]*sub)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endWhile, /^(end[ \t]*while)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.exitWhile, /^(exit[ \t]*while)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.exitFor, /^(exit[ \t]*for)(?![a-z_0-9])/i);
+        this.addTokenDefinition(TokenType.endFor, /^(end[ \t]*for)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.elseIf, /^(else[ \t]*if)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condIf, /^(#if)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.condElseIf, /^(#else[ \t]*if)(?![a-z_0-9])/i);

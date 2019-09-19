@@ -57,6 +57,10 @@ var BrightScriptLexer = /** @class */ (function () {
         this.addTokenDefinition(TokenType.booleanLiteral, /^(true|false)(?![a-z_0-9])/i);
         this.addTokenDefinition(TokenType.stringLiteral, /^("([^"]|"")*")/);
         this.addTokenDefinition(TokenType.numberLiteral, /^(\d)/);
+        //grouped symbols
+        this.addTokenDefinition(TokenType.notEqual, /^\<\>/);
+        this.addTokenDefinition(TokenType.lessThanOrEqual, /^\<=/);
+        this.addTokenDefinition(TokenType.greaterThanOrEqual, /^\>=/);
         //now add all symbols
         for (var tokenType in exports.SymbolTokenTypeValues) {
             var symbol = exports.SymbolTokenTypeValues[tokenType];
@@ -236,6 +240,9 @@ var TokenType;
     TokenType["remComment"] = "remComment";
     TokenType["newline"] = "newline";
     TokenType["whitespace"] = "whitespace";
+    TokenType["lessThanOrEqual"] = "lessThanOrEqual";
+    TokenType["greaterThanOrEqual"] = "greaterThanOrEqual";
+    TokenType["notEqual"] = "notEqual";
     //lexer specific
     TokenType["END_OF_FILE"] = "END_OF_FILE";
     TokenType["INVALID_TOKEN"] = "INVALID_TOKEN";
@@ -343,6 +350,9 @@ exports.MiscelaneousTokenTypes = [
     TokenType.remComment,
     TokenType.newline,
     TokenType.whitespace,
+    TokenType.lessThanOrEqual,
+    TokenType.greaterThanOrEqual,
+    TokenType.notEqual,
     TokenType.END_OF_FILE,
     TokenType.INVALID_TOKEN
 ];

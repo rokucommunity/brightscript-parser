@@ -8,8 +8,7 @@
     "declaration": true,
     "strict": true
   },
-  "exclude": [
-    "src/BrightScriptLexer.spec.ts",
-    "node_modules"
+  "include": [
+    "src/BrightScriptLexer.ts"
   ]
 }

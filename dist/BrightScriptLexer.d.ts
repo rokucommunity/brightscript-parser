@@ -115,8 +115,11 @@ export declare enum TokenType {
     remComment = "remComment",
     newline = "newline",
     whitespace = "whitespace",
+    lessThanOrEqual = "lessThanOrEqual",
+    greaterThanOrEqual = "greaterThanOrEqual",
+    notEqual = "notEqual",
     END_OF_FILE = "END_OF_FILE",
-    INVALID_TOKEN = "INVALID_TOKEN",
+    INVALID_TOKEN = "INVALID_TOKEN"
 }
 /**
  * composite keywords (like "endif" and "endfor")

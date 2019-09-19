@@ -169,6 +169,50 @@ describe('BrightscriptLexer', () => {
     });
 
     describe('tokenize', () => {
+        it('handles property named `end` correctly', () => {
+            expect(tokenize(`end\nfunction`)).to.deep.equal([
+                TokenType.identifier,
+                TokenType.newline,
+                TokenType.function,
+                TokenType.END_OF_FILE
+            ]);
+            expect(tokenize(`end\nif`)).to.deep.equal([
+                TokenType.identifier,
+                TokenType.newline,
+                TokenType.if,
+                TokenType.END_OF_FILE
+            ]);
+            expect(tokenize(`end\nsub`)).to.deep.equal([
+                TokenType.identifier,
+                TokenType.newline,
+                TokenType.sub,
+                TokenType.END_OF_FILE
+            ]);
+            expect(tokenize(`end\nwhile`)).to.deep.equal([
+                TokenType.identifier,
+                TokenType.newline,
+                TokenType.while,
+                TokenType.END_OF_FILE
+            ]);
+            expect(tokenize(`exit\nwhile`)).to.deep.equal([
+                TokenType.exit,
+                TokenType.newline,
+                TokenType.while,
+                TokenType.END_OF_FILE
+            ]);
+            expect(tokenize(`exit\nfor`)).to.deep.equal([
+                TokenType.exit,
+                TokenType.newline,
+                TokenType.for,
+                TokenType.END_OF_FILE
+            ]);
+            expect(tokenize(`end\nfor`)).to.deep.equal([
+                TokenType.identifier,
+                TokenType.newline,
+                TokenType.for,
+                TokenType.END_OF_FILE
+            ]);
+        });
         it('comment tokens do not include newline character', () => {
             expect(tokenize(`'some comment\n`)).to.deep.equal([TokenType.quoteComment, TokenType.newline, TokenType.END_OF_FILE]);
 
